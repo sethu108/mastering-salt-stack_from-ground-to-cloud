@@ -35,3 +35,13 @@ Run these commands on each system that you want to manage using Salt.
 
 curl -L https://bootstrap.saltstack.com -o install_salt.sh
 sudo sh install_salt.sh -P
+
+# Fedora
+Packages are available in the standard Fedora repositories. Install the salt-minion, salt-master, or other Salt components:
+
+    sudo dnf install salt-master
+    sudo dnf install salt-minion
+    sudo dnf install salt-ssh
+    sudo dnf install salt-syndic
+    sudo dnf install salt-cloud
+    sudo dnf install salt-api
