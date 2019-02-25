@@ -1,3 +1,6 @@
+Prerequisites 
+git
+
 Install and configure Salt
 =================================
 
@@ -39,9 +42,39 @@ sudo sh install_salt.sh -P
 # Fedora
 Packages are available in the standard Fedora repositories. Install the salt-minion, salt-master, or other Salt components:
 
-    sudo dnf install salt-master
-    sudo dnf install salt-minion
-    sudo dnf install salt-ssh
-    sudo dnf install salt-syndic
-    sudo dnf install salt-cloud
-    sudo dnf install salt-api
+sudo dnf install salt-master
+sudo dnf install salt-minion
+sudo dnf install salt-ssh
+sudo dnf install salt-syndic
+sudo dnf install salt-cloud
+sudo dnf install salt-api
+
+# Redhat / CentOS 7 
+
+Installs the latest release. Updating installs the latest release even if it is a new major version.
+
+Run the following commands to install the SaltStack repository and key:
+
+sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest.el7.noarch.rpm 
+
+Run sudo yum clean expire-cache
+Install the salt-minion, salt-master, or other Salt components:
+sudo yum install salt-master
+sudo yum install salt-minion
+sudo yum install salt-ssh
+sudo yum install salt-syndic
+sudo yum install salt-cloud
+sudo yum install salt-api
+(Upgrade only) Restart all upgraded services, for example:
+
+sudo systemctl restart salt-minion
+
+
+# Ubuntu
+
+
+
+
+
+
+https://docs.saltstack.com/en/latest/ref/configuration/nonroot.html
