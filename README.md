@@ -1,7 +1,7 @@
 Prerequisites 
 git
 
-Install and configure Salt
+Install and configure salt-master
 =================================
 
 Check first:
@@ -65,10 +65,9 @@ sudo yum install salt-ssh
 sudo yum install salt-syndic
 sudo yum install salt-cloud
 sudo yum install salt-api
+
 (Upgrade only) Restart all upgraded services, for example:
-
 sudo systemctl restart salt-minion
-
 
 # Ubuntu
 
