@@ -70,6 +70,30 @@ sudo yum install salt-api
 sudo systemctl restart salt-minion
 
 # Ubuntu
+Ubuntu 18 (bionic)
+
+Installs the latest release. Updating installs the latest release even if it is a new major version.
+
+Run the following command to import the SaltStack repository key:
+
+wget -O - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
+
+Save the following file to /etc/apt/sources.list.d/saltstack.list:
+
+deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic main
+
+Run sudo apt-get update
+Install the salt-minion, salt-master, or other Salt components:
+sudo apt-get install salt-master
+sudo apt-get install salt-minion
+sudo apt-get install salt-ssh
+sudo apt-get install salt-syndic
+sudo apt-get install salt-cloud
+sudo apt-get install salt-api
+
+(Upgrade only) Restart all upgraded services, for example:
+sudo systemctl restart salt-minion
+
 
 
 
