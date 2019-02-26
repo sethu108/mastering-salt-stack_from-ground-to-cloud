@@ -67,7 +67,7 @@ sudo yum clean expire-cache
 
 #### Install the salt-minion, salt-master, or other Salt components:
 ```
-sudo yum install salt-master \
+sudo yum install -y salt-master \
 salt-minion \
 salt-ssh \
 salt-syndic \
