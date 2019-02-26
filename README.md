@@ -1,104 +1,118 @@
-# Prerequisites 
-# git
+# Install and configure salt-master
+## ==============================================
 
-## Install and configure salt-master
-## =================================
+## Check first
+```
+https://repo.saltstack.com/#bootstrap
+```
 
-## Check first:
-## https://repo.saltstack.com/#bootstrap
-
-## Installation
+# Installation
 
 ## BOOTSTRAP - MULTI-PALTFORM
 
-# Install using wget
+### Install using wget
 
-# Using wget to install your distribution's stable packages:
+#### Using wget to install your distribution's stable packages
 ```
 wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
 sudo sh bootstrap-salt.sh
 ```
-# Installing a specific version from git using wget:
+
+#### Installing a specific version from git using wget
 ```
 wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
 sudo sh bootstrap-salt.sh -P git v2016.11.5
 ```
-# Install using curl
-# On the Salt master
 
-# Run these commands on the system that you want to use as the central management point.
+### Install using curl
 
+### On the Salt master
+
+#### Run these commands on the system that you want to use as the central management point
+```
 curl -L https://bootstrap.saltstack.com -o install_salt.sh
 sudo sh install_salt.sh -P -M
+```
 
-# Your Salt master can manage itself, so a Salt minion is installed along with the Salt master. If you do not want to install the minion, also pass the -N option.
-# On each Salt minion
+Your Salt master can manage itself, so a Salt minion is installed along with the Salt master. If you do not want to install the minion, also pass the -N option.
 
-# Run these commands on each system that you want to manage using Salt.
+### On each Salt minion
 
+#### Run these commands on each system that you want to manage using Salt.
+```
 curl -L https://bootstrap.saltstack.com -o install_salt.sh
 sudo sh install_salt.sh -P
+```
 
-# Fedora
-# Packages are available in the standard Fedora repositories. Install the salt-minion, salt-master, or other Salt components:
-
+## Fedora
+#### Packages are available in the standard Fedora repositories. Install the salt-minion, salt-master, or other Salt components:
+```
 sudo dnf install -y salt-master \
 salt-minion \
 salt-ssh \
 salt-syndic \
 salt-cloud \
 salt-api
+```
 
-# Redhat / CentOS 7 
+## Redhat / CentOS 7 
 
-# Installs the latest release. Updating installs the latest release even if it is a new major version.
+#### Installs the latest release. Updating installs the latest release even if it is a new major version.
 
-# Run the following commands to install the SaltStack repository and key:
-
+#### Run the following commands to install the SaltStack repository and key
+```
 sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest.el7.noarch.rpm 
-
-# Run 
 sudo yum clean expire-cache
+```
 
-# Install the salt-minion, salt-master, or other Salt components:
+#### Install the salt-minion, salt-master, or other Salt components:
+```
 sudo yum install salt-master \
 salt-minion \
 salt-ssh \
 salt-syndic \
 salt-cloud \
 salt-api
+```
 
-# (Upgrade only) Restart all upgraded services, for example:
+#### (Upgrade only) Restart all upgraded services, for example
+```
 sudo systemctl restart salt-minion
+```
 
-# Ubuntu
-# Ubuntu 18 (bionic)
+## Ubuntu
+#### Ubuntu 18 (bionic)
 
-# Installs the latest release. Updating installs the latest release even if it is a new major version.
+#### Installs the latest release. Updating installs the latest release even if it is a new major version.
 
-# Run the following command to import the SaltStack repository key:
-
+#### Run the following command to import the SaltStack repository key:
+```
 wget -O - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
-
-# Save the following line to /etc/apt/sources.list.d/saltstack.list:
-
+```
+#### Save the following line to /etc/apt/sources.list.d/saltstack.list:
+```
 sudo echo "deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic main" >> /etc/apt/sources.list.d/saltstack.list
-
-# Run 
+```
+#### Run 
+```
 sudo apt-get update
-
-# Install the salt-minion, salt-master, or other Salt components:
+```
+#### Install the salt-minion, salt-master, or other Salt components:
+```
 sudo apt-get install -y salt-master \
 salt-minion \
 salt-ssh \
 salt-syndic \
 salt-cloud \
 salt-api
+```
 
-# (Upgrade only) Restart all upgraded services, for example:
+#### (Upgrade only) Restart all upgraded services, for example:
+```
 sudo systemctl restart salt-minion
+```
 
-# Other distros
+## Other distros
 https://docs.saltstack.com/en/latest/topics/installation/index.html#platform-specific-installation-instructions
 
 
