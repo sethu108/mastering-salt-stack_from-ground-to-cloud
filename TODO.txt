@@ -1,2 +1,3 @@
 # Prerequisites 
 # git
+adding mc to sudoers and bookmark in browser; additonal workspace prepared ; bootstrap install salt-master ready readme file opened
