@@ -117,7 +117,7 @@ https://docs.saltstack.com/en/latest/topics/installation/index.html#platform-spe
 
 
 
-#Configuring Salt
+# Configuring Salt
 ## ==============================================
 
 Salt configuration is very simple. The default configuration for the master will work for most installations and the only requirement for setting up a minion is to set the location of the master in the minion configuration file.
@@ -135,7 +135,7 @@ After updating the configuration file, restart the Salt master. See the master c
 ```
 sudo systemctl restart salt-master
 ```
-##Minion Configuration
+## Minion Configuration
 
 Although there are many Salt Minion configuration options, configuring a Salt Minion is very simple. By default a Salt Minion will try to connect to the DNS name "salt"; if the Minion is able to resolve that name correctly, no configuration is needed.
 
@@ -157,7 +157,7 @@ After updating the configuration file, restart the Salt minion. See the minion c
 sudo systemctl restart salt-minion
 ```
 
-##Having trouble?
+## Having trouble?
 
 The simplest way to troubleshoot Salt is to run the master and minion in the foreground with log level set to debug:
 
@@ -165,7 +165,7 @@ salt-master --log-level=debug
 
 For information on salt's logging system please see the logging document.
 
-#Run as an unprivileged (non-root) user
+# Run as an unprivileged (non-root) user
 ## ==============================================
 
 To run Salt as another user, set the user parameter in the master config file.
@@ -183,7 +183,7 @@ https://docs.saltstack.com/en/latest/ref/configuration/nonroot.html#configuratio
 There is also a full troubleshooting guide available.
 https://docs.saltstack.com/en/latest/topics/troubleshooting/index.html#troubleshooting
 
-##Key Identity
+## Key Identity
 
 Salt provides commands to validate the identity of your Salt master and Salt minions before the initial key exchange. Validating key identity helps avoid inadvertently connecting to the wrong Salt master, and helps prevent a potential MiTM attack when establishing the initial connection.
 Master Key Fingerprint
@@ -201,7 +201,7 @@ salt-call --local key.finger
 ```
 Compare this value to the value that is displayed when you run the salt-key --finger <MINION_ID> command on the Salt master.
 
-##Key Management
+## Key Management
 
 Salt uses AES encryption for all communication between the Master and the Minion. This ensures that the commands sent to the Minions cannot be tampered with, and that communication between Master and Minion is authenticated through trusted, accepted keys.
 
@@ -233,7 +233,7 @@ See also
 salt-key manpage
 https://docs.saltstack.com/en/latest/ref/cli/salt-key.html#salt-key
 
-##Sending Commands
+## Sending Commands
 
 Communication between the Master and a Minion may be verified by running the test.ping command:
 
