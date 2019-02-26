@@ -127,10 +127,10 @@ The configuration files will be installed to /etc/salt and are named after the r
 ### Master Configuration
 
 By default the Salt master listens on ports 4505 and 4506 on all interfaces (0.0.0.0). To bind Salt to a specific IP, redefine the "interface" directive in the master configuration file, typically /etc/salt/master, as follows:
-
+```
 - #interface: 0.0.0.0
 + interface: 10.0.0.1
-
+```
 After updating the configuration file, restart the Salt master. See the master configuration reference for more details about other configurable options.
 ```
 sudo systemctl restart salt-master
