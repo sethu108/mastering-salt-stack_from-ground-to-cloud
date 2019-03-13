@@ -232,9 +232,7 @@ See also
 salt-key manpage
 https://docs.saltstack.com/en/latest/ref/cli/salt-key.html#salt-key
 
-### Sending Commands
 
-Communication between the Master and a Minion may be verified by running the test.ping command:
 ```
 [root@master ~]# salt alpha test.ping
 alpha:
@@ -248,6 +246,10 @@ Communication between the Master and all Minions may be tested in a similar way:
 Each of the Minions should send a True response as shown above.
 
 # Basic commands concept
+
+### Sending Commands
+
+Communication between the Master and a Minion may be verified by running the test.ping command:
 
 salt '*' test.ping
 
