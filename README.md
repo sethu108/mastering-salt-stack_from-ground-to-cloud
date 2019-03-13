@@ -247,8 +247,136 @@ Communication between the Master and all Minions may be tested in a similar way:
 
 Each of the Minions should send a True response as shown above.
 
+# Basic commands concept
+
+salt '*' test.ping
+
+
+
 
 
 
 
 https://docs.saltstack.com/en/latest/ref/configuration/nonroot.html
+
+
+ Minion Targeting
+We have referred to the targeting of minions multiple times. The target is used in the main salt command as the first argument. (We briefly mentioned that targeting is also used in states. . Just be aware that targeting is used for more than just the salt command.) Now, we will look at the options for how you can target using different attributes.
+In our testing setup, we have a master and four additional minions.
+Table 2-3. Testing setup for minion targeting
+ID
+Master?
+Operating system
+master.example
+Yes
+CentOS 6.6
+minion1.example
+No
+CentOS 6.6
+minion2.example
+No
+CentOS 6.6
+minion3.example
+No
+Ubuntu 14.04
+minion4.example
+No
+Ubuntu 14.04
+You can use any mix of minions that you need. You will just need to adjust the outputs of the examples accordingly. Also, we will be using the test.ping module heavily; this is a simple execution module that we have already introduced. There are multiple ways of targeting your minions. We are going to discuss the most common. This is not an exhaustive list, but rather merely some examples to get you familiar with how you can target commands to different collections of minions.
+Minion ID
+The simplest way to target is to specify minions based on ID:
+
+[vagrant@master ~]$ sudo salt minion1.example test.ping
+minion1.example:
+    True
+
+List (-L)
+Next, you can provide a comma-separated list of minion IDs:
+
+[vagrant@master ~]$ sudo salt -L master.example,minion1.example test.ping
+master.example:
+    True
+minion1.example:
+    True
+
+Glob
+Simple, shell-style globs can be expanded to a list of minions. As we discussed earlier, an asterisk will expand to every known minion:
+
+[vagrant@master ~]$ sudo salt '*' test.ping
+minion1.example:
+    True
+minion3.example:
+    True
+minion4.example:
+    True
+minion2.example:
+    True
+master.example:
+    True
+
+NOTE
+As you can clearly see in this example, the minions are not expected to return in any given order. The order is simply the first minion to send data back on the return socket.
+You can also combine a glob with the minion ID:
+
+[vagrant@master ~]$ sudo salt 'min*' test.ping
+minion4.example:
+    True
+minion1.example:
+    True
+minion2.example:
+    True
+minion3.example:
+    True
+
+Regular Expression (-E)
+Regular expressions allow for more complex patterns:
+
+[vagrant@master ~]$ sudo salt -E 'minion(1|2)\.example' test.ping
+minion1.example:
+    True
+minion2.example:
+    True
+
+This is a pretty simple regular expression. It just says:
+
+    Match anything starting with minion,
+    Then match either a 1 or a 2,
+    And then match anything ending with .example.
+
+If you have a strong naming scheme, you can do powerful matching using regular expressions.
+Grains (-G)
+The minions will gather information about the operating system (and the environment in general) and present it to the user as grains. Grains are a simple data structure that allows you to target based on some underlying aspect of the systems you are running. (Grains will be discussed in detail in ) For example, grains provide the operating system name (e.g., CentOS) and the version (e.g., 6.6). This allows you to send a command to, say, upgrade the Apache package only on CentOS 6.6 hosts.
+TIP
+It is important to note that the grains are loaded when the Salt minion starts. Grains are meant for static data. There are ways to load grains more dynamically.
+Let’s see a quick example using the operating system name. We can ping only the CentOS hosts:
+
+[vagrant@master ~]$ sudo salt -G 'os:CentOS' test.ping
+master.example:
+    True
+minion2.example:
+    True
+minion1.example:
+    True
+
+And then likewise with the Ubuntu minions:
+
+[vagrant@master ~]$ sudo salt -G 'os:Ubuntu' test.ping
+minion4.example:
+    True
+minion3.example:
+    True
+
+Compound (-C)
+The preceding methods of targeting minions are very powerful. But what if you want to combine several types in one command? That is where the compound matcher comes in. You can combine any of the other matchers in one command. The compound matcher works using simple prefixes for each type. Let’s look at a simple example:
+
+[vagrant@master ~]$ sudo salt -C 'master* or G@os:Ubuntu' test.ping
+minion4.example:
+    True
+minion3.example:
+    True
+master.example:
+    True
+
+The different types of matchers are identified with a single capital letter followed by the at sign (@). In our example we used a grains matcher, G@, followed by the name and value of the grain, os:Ubuntu, just as in the grains example in the previous section. We also used a standard globbing type: master*. Notice there was no single letter prefix, however. Just as with the salt command, a minion ID and/or a glob is the default matcher if nothing else is specified. Lastly, we need to combine the two types of matches using the or operator. (You can use the standard Boolean operators: and, or, and not.) Combining the other matchers is extremely powerful, and we have only scratched the surface of what is available.
+Targeting Summary
+We have shown some of the major ways you can target your minions. However, there are a few others. For example, you can target by IP address or via node groups. Node groups are an arbitrary list of minions defined in the master’s configuration file. The previous examples will take you far. But be aware that there are other options for targeting your minions, and this is a list that can grow over time.
