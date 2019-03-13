@@ -130,8 +130,6 @@ By default the Salt master listens on ports 4505 and 4506 on all interfaces (0.0
 ```
 - #interface: 0.0.0.0
 + interface: 172.16.2.101
-or
-+ interface: salt-master
 ```
 After updating the configuration file, restart the Salt master. See the master configuration reference for more details about other configurable options.
 ```
@@ -248,6 +246,8 @@ Communication between the Master and all Minions may be tested in a similar way:
 ```
 
 Each of the Minions should send a True response as shown above.
+
+
 
 
 

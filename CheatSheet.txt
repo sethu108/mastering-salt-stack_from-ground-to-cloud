@@ -1,0 +1,12 @@
+# Cheat sheet
+
+## Basic Commands
+
+Interacting with Salt means using one of the command-line tools. There are several commands, but for the moment we care only about the following four:
+```
+    /usr/bin/salt
+    /usr/bin/salt-key
+    /usr/bin/salt-run
+    /usr/bin/salt-call
+```
+The one you will care the most about is the basic salt command.
