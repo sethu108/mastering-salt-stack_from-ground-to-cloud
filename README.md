@@ -259,6 +259,100 @@ centos-srv-salt-minion-01.home.lab:
     True
 ```
 
+```
+[mc@salt-master ~]$ salt '*' cmd.run 'ls -la /home/mc'
+ubuntu-srv-salt-minion-02.home.lab:
+    total 40
+    drwxr-xr-x 5 mc   mc   4096 Feb 28 18:07 .
+    drwxr-xr-x 3 root root 4096 Feb 24 20:19 ..
+    -rw------- 1 mc   mc    556 Feb 28 17:42 .bash_history
+    -rw-r--r-- 1 mc   mc    220 Apr  4  2018 .bash_logout
+    -rw-r--r-- 1 mc   mc   3771 Apr  4  2018 .bashrc
+    drwx------ 2 mc   mc   4096 Feb 24 20:21 .cache
+    drwx------ 3 mc   mc   4096 Feb 24 20:21 .gnupg
+    -rw-r--r-- 1 mc   mc    807 Apr  4  2018 .profile
+    drwx------ 2 mc   mc   4096 Feb 28 17:42 .ssh
+    -rw-r--r-- 1 mc   mc      0 Feb 24 20:33 .sudo_as_admin_successful
+    -rw------- 1 root root 3027 Feb 28 18:07 .viminfo
+centos-srv-salt-minion-01.home.lab:
+    total 20
+    drwx------. 3 mc   mc   111 Feb 28 13:16 .
+    drwxr-xr-x. 3 root root  16 Feb 24 13:34 ..
+    -rw-------. 1 mc   mc    25 Feb 28 12:41 .bash_history
+    -rw-r--r--. 1 mc   mc    18 Oct 30 13:07 .bash_logout
+    -rw-r--r--. 1 mc   mc   193 Oct 30 13:07 .bash_profile
+    -rw-r--r--. 1 mc   mc   231 Oct 30 13:07 .bashrc
+    drwx------. 2 mc   mc    29 Feb 28 12:40 .ssh
+    -rw-------. 1 mc   mc   512 Feb 28 13:16 .viminfo
+```
+
+```
+[mc@salt-master ~]$ salt '*' pkg.install vim
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+            2:7.4.160-5.el7
+        old:
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+            2:8.0.1453-1ubuntu1
+        old:
+```
+```
+[mc@salt-master ~]$ salt '*' pkg.remove vim
+centos-srv-salt-minion-01.home.lab:
+    ----------
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+        old:
+            2:8.0.1453-1ubuntu1
+[mc@salt-master ~]$ salt '*' pkg.remove vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+        old:
+            2:7.4.160-5.el7
+```
+```
+[mc@centos-srv-salt-minion-01 ~]$ sudo salt-call test.ping
+local:
+    True
+[mc@centos-srv-salt-minion-01 ~]$ sudo salt-call pkg.install vim
+local:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+            2:7.4.160-5.el7
+        old:
+```
+```
+mc@ubuntu-srv-salt-minion-02:~$ sudo salt-call test.ping
+local:
+    True
+mc@ubuntu-srv-salt-minion-02:~$ sudo salt-call pkg.install vim
+local:
+    ----------
+    vim:
+        ----------
+        new:
+            2:8.0.1453-1ubuntu1
+        old:
+
+```
+
 
 
 
