@@ -251,8 +251,13 @@ Each of the Minions should send a True response as shown above.
 
 Communication between the Master and a Minion may be verified by running the test.ping command:
 
-salt '*' test.ping
-
+```
+[mc@salt-master ~]$ salt '*' test.ping
+ubuntu-srv-salt-minion-02.home.lab:
+    True
+centos-srv-salt-minion-01.home.lab:
+    True
+```
 
 
 
