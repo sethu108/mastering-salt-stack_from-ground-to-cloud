@@ -805,7 +805,8 @@ centos-srv-salt-minion-01.home.lab:
     - sys.state_doc
     - sys.state_schema
 ```
-### cmd module
+
+## cmd module
 ```buildoutcfg
 [mc@salt-master ~]$  salt '*minion-01*' sys.doc cmd
 cmd.exec_code:
@@ -1010,210 +1011,9 @@ cmd.run:
         salt '*' cmd.run cmd='sed -e s/=/:/g'
 ```
 
-### pkg module
+## pkg module
+
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep available
-    - pkg.available_version
-    - pkg.upgrade_available
-[mc@salt-master ~]$ salt '*' pkg.available_version vim
-ubuntu-srv-salt-minion-02.home.lab:
-centos-srv-salt-minion-01.home.lab:
-[mc@salt-master ~]$ salt '*' pkg.upgrade_available vim
-ubuntu-srv-salt-minion-02.home.lab:
-    False
-centos-srv-salt-minion-01.home.lab:
-    False
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep install
-    - pkg.group_install
-    - pkg.groupinstall
-    - pkg.info_installed
-    - pkg.install
-    - pkg.list_installed_patches
-[mc@salt-master ~]$ salt '*' pkg.info_installed vim
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    vim:
-        ----------
-        architecture:
-            amd64
-        description:
-            Vi IMproved - enhanced vi editor
-             Vim is an almost compatible version of the UNIX editor Vi.
-             .
-             Many new features have been added: multi level undo, syntax
-             highlighting, command line history, on-line help, filename
-             completion, block operations, folding, Unicode support, etc.
-             .
-             This package contains a version of vim compiled with a rather
-             standard set of features.  This package does not provide a GUI
-             version of Vim.  See the other vim-* packages if you need more
-             (or less).
-        group:
-            editors
-        install_date:
-            2019-03-13T07:08:50Z
-        license:
-            Apache, Apache or Expat, Artistic-1, BSD-2-clause, BSD-3-clause, Compaq, Expat, Expat or GPL-2, Expat or Vim, GPL-1+, GPL-1+ or Artistic-1, GPL-2, GPL-2+, OPL-1+, SRA, UC, Vim, Vim-Regexp, X11, XPM, public-domain
-        name:
-            vim
-        packager:
-            Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-        source:
-            vim
-        url:
-            https://vim.sourceforge.io/
-        version:
-            2:8.0.1453-1ubuntu1
-centos-srv-salt-minion-01.home.lab:
-    ERROR: package vim is not installed
-ERROR: Minions returned with non-zero exit code
-[mc@salt-master ~]$ salt '*' pkg.info_installed vim-enhanced
-ubuntu-srv-salt-minion-02.home.lab:
-    ERROR: Error getting packages information: dpkg-query: no packages found matching vim-enhanced
-centos-srv-salt-minion-01.home.lab:
-    ----------
-    vim-enhanced:
-        ----------
-        arch:
-            x86_64
-        build_date:
-            2018-10-30T19:57:29Z
-        build_date_time_t:
-            1540929449
-        build_host:
-            x86-01.bsys.centos.org
-        description:
-            VIM (VIsual editor iMproved) is an updated and improved version of the
-            vi editor.  Vi was the first real screen-based editor for UNIX, and is
-            still very popular.  VIM improves on vi by adding new features:
-            multiple windows, multi-level undo, block highlighting and more.  The
-            vim-enhanced package contains a version of VIM with extra, recently
-            introduced features like Python and Perl interpreters.
-            
-            Install the vim-enhanced package if you'd like to use a version of the
-            VIM editor which includes recently added enhancements like
-            interpreters for the Python and Perl scripting languages.  You'll also
-            need to install the vim-common package.
-        epoch:
-            2
-        group:
-            Applications/Editors
-        install_date:
-            2019-02-28T20:46:48Z
-        install_date_time_t:
-            1551386808
-        license:
-            Vim
-        packager:
-            CentOS BuildSystem <http://bugs.centos.org>
-        release:
-            5.el7
-        relocations:
-            (not relocatable)
-        signature:
-            RSA/SHA256, Mon Nov 12 14:48:44 2018, Key ID 24c6a8a7f4a80eb5
-        size:
-            2296666
-        source:
-            vim-7.4.160-5.el7.src.rpm
-        summary:
-            A version of the VIM editor which includes recent enhancements
-        url:
-            http://www.vim.org/
-        vendor:
-            CentOS
-        version:
-            7.4.160
-ERROR: Minions returned with non-zero exit code
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep remove
-    - pkg.remove
-[mc@salt-master ~]$ salt '*' pkg.remove vim
-centos-srv-salt-minion-01.home.lab:
-    ----------
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    vim:
-        ----------
-        new:
-        old:
-            2:8.0.1453-1ubuntu1
-[mc@salt-master ~]$ salt '*' pkg.remove vim-enhanced
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-centos-srv-salt-minion-01.home.lab:
-    ----------
-    vim-enhanced:
-        ----------
-        new:
-        old:
-            2:7.4.160-5.el7
-[mc@salt-master ~]$ salt '*' pkg.available_version vim
-ubuntu-srv-salt-minion-02.home.lab:
-    2:8.0.1453-1ubuntu1
-centos-srv-salt-minion-01.home.lab:
-[mc@salt-master ~]$ salt '*' pkg.available_version vim-enhanced
-ubuntu-srv-salt-minion-02.home.lab:
-centos-srv-salt-minion-01.home.lab:
-    2:7.4.160-5.el7
-[mc@salt-master ~]$ salt '*' sys.doc pkg.available_version 
-pkg.available_version:
-
-This function is an alias of ``latest_version``.
-
-    Return the latest version of the named package available for upgrade or
-    installation. If more than one package name is specified, a dict of
-    name/version pairs is returned.
-
-    If the latest version of a given package is already installed, an empty
-    string will be returned for that package.
-
-    A specific repo can be requested using the ``fromrepo`` keyword argument,
-    and the ``disableexcludes`` option is also supported.
-
-    New in version 2014.7.0
-        Support for the ``disableexcludes`` option
-
-    CLI Example:
-
-        salt '*' pkg.latest_version <package name>
-        salt '*' pkg.latest_version <package name> fromrepo=epel-testing
-        salt '*' pkg.latest_version <package name> disableexcludes=main
-        salt '*' pkg.latest_version <package1> <package2> <package3> ...
-    
-
-[mc@salt-master ~]$ salt '*' pkg.available_version vim vim-enhanced
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    vim:
-        2:8.0.1453-1ubuntu1
-    vim-enhanced:
-centos-srv-salt-minion-01.home.lab:
-    ----------
-    vim:
-    vim-enhanced:
-        2:7.4.160-5.el7
-[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
-centos-srv-salt-minion-01.home.lab:
-    ----------
-    vim-enhanced:
-        ----------
-        new:
-            2:7.4.160-5.el7
-        old:
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    vim:
-        ----------
-        new:
-            2:8.0.1453-1ubuntu1
-        old:
-[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-centos-srv-salt-minion-01.home.lab:
-    ----------
-
-
 [mc@salt-master ~]$ salt '*' sys.list_functions pkg
 ubuntu-srv-salt-minion-02.home.lab:
     - pkg.add_repo_key
@@ -1289,12 +1089,106 @@ centos-srv-salt-minion-01.home.lab:
     - pkg.verify
     - pkg.version
     - pkg.version_cmp
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep available
+    - pkg.available_version
+    - pkg.upgrade_available
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep install
+    - pkg.group_install
+    - pkg.groupinstall
+    - pkg.info_installed
+    - pkg.install
+    - pkg.list_installed_patches
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep remove
+    - pkg.remove
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.available_version vim
+ubuntu-srv-salt-minion-02.home.lab:
+    2:8.0.1453-1ubuntu1
+centos-srv-salt-minion-01.home.lab:
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.available_version vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+    2:7.4.160-5.el7
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' sys.doc pkg.available_version 
+pkg.available_version:
 
+This function is an alias of ``latest_version``.
 
+    Return the latest version of the named package available for upgrade or
+    installation. If more than one package name is specified, a dict of
+    name/version pairs is returned.
+
+    If the latest version of a given package is already installed, an empty
+    string will be returned for that package.
+
+    A specific repo can be requested using the ``fromrepo`` keyword argument,
+    and the ``disableexcludes`` option is also supported.
+
+    New in version 2014.7.0
+        Support for the ``disableexcludes`` option
+
+    CLI Example:
+
+        salt '*' pkg.latest_version <package name>
+        salt '*' pkg.latest_version <package name> fromrepo=epel-testing
+        salt '*' pkg.latest_version <package name> disableexcludes=main
+        salt '*' pkg.latest_version <package1> <package2> <package3> ...
+    
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.available_version vim vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        2:8.0.1453-1ubuntu1
+    vim-enhanced:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim:
+    vim-enhanced:
+        2:7.4.160-5.el7
+```
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+            2:7.4.160-5.el7
+        old:
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+            2:8.0.1453-1ubuntu1
+        old:
+```
 ### pkg.list_pkgs
+```buildoutcfg
 
+```
 ### pkg.available_version
+```buildoutcfg
 
+```
 ### pkg.install
+```buildoutcfg
 
+```
 ## user module
+```buildoutcfg
+
+```
