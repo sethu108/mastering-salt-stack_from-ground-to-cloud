@@ -1334,5 +1334,217 @@ centos-srv-salt-minion-01.home.lab:
 
 ## user module
 ```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc user.add
+user.add:
+
+    Add a user to the minion
+
+    CLI Example:
+
+        salt '*' user.add name <uid> <gid> <groups> <home> <shell>
+    
+
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'ls -lah' runas=tom
+centos-srv-salt-minion-01.home.lab:
+    ERROR: User 'tom' is not available
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 10000 10000  tom /home/tom /bin/bash
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 10000 10000 tom '/home/tom' '/bin/bash'
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 
+centos-srv-salt-minion-01.home.lab:
+    True
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'ls -lah' runas=tom
+centos-srv-salt-minion-01.home.lab:
+    total 12K
+    drwx------. 2 tom  tom   62 Mar  3 02:47 .
+    drwxr-xr-x. 4 root root  27 Mar  3 02:47 ..
+    -rw-r--r--. 1 tom  tom   18 Oct 30 13:07 .bash_logout
+    -rw-r--r--. 1 tom  tom  193 Oct 30 13:07 .bash_profile
+    -rw-r--r--. 1 tom  tom  231 Oct 30 13:07 .bashrc
+[mc@salt-master ~]$ salt '*minion-01*' user.remove tom 
+centos-srv-salt-minion-01.home.lab:
+    'user.remove' is not available.
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.del tom 
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    user.del:
+        'user.del' is not available.
+    user.delete:
+        
+            Remove a user from the minion
+        
+            CLI Example:
+        
+                salt '*' user.delete name remove=True force=True
+            
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.delete tom 
+centos-srv-salt-minion-01.home.lab:
+    True
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'ls -lah' runas=tom
+centos-srv-salt-minion-01.home.lab:
+    ERROR: User 'tom' is not available
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 10000 10000 /home/tom /bin/bash
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 10000 10000 '/home/tom' '/bin/bash'
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 1000 1000 '/home/tom' '/bin/bash'
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 1002 1002 '/home/tom' '/bin/bash'
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.add tom 
+centos-srv-salt-minion-01.home.lab:
+    True
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'grep tom /etc/passwd' runas=tom
+centos-srv-salt-minion-01.home.lab:
+    tom:x:1001:1001::/home/tom:/bin/bash
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc user.add
+user.add:
+
+    Add a user to the minion
+
+    CLI Example:
+
+        salt '*' user.add name <uid> <gid> <groups> <home> <shell>
+    
+
+[mc@salt-master ~]$ salt '*minion-01*' user.add jerry 1002 1002
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' user.info tom
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    fullname:
+    gid:
+        1001
+    groups:
+        - tom
+    home:
+        /home/tom
+    homephone:
+    name:
+        tom
+    other:
+    passwd:
+        x
+    roomnumber:
+    shell:
+        /bin/bash
+    uid:
+        1001
+    workphone:
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions user
+centos-srv-salt-minion-01.home.lab:
+    - user.add
+    - user.chfullname
+    - user.chgid
+    - user.chgroups
+    - user.chhome
+    - user.chhomephone
+    - user.chloginclass
+    - user.chother
+    - user.chroomnumber
+    - user.chshell
+    - user.chuid
+    - user.chworkphone
+    - user.delete
+    - user.get_loginclass
+    - user.getent
+    - user.info
+    - user.list_groups
+    - user.list_users
+    - user.primary_group
+    - user.rename
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc user.chshell
+user.chshell:
+
+    Change the default shell of the user
+
+    CLI Example:
+
+        salt '*' user.chshell foo /bin/zsh
+    
+
+[mc@salt-master ~]$ salt '*minion-01*' user.chshell tom /bin/nologin
+centos-srv-salt-minion-01.home.lab:
+    True
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'grep tom /etc/passwd' runas=tom
+centos-srv-salt-minion-01.home.lab:
+    tom:x:1001:1001::/home/tom:/bin/nologin
+[mc@salt-master ~]$ ssh minion-01
+Last login: Sun Mar  3 01:58:42 2019 from salt-master.home.lab
+[mc@centos-srv-salt-minion-01 ~]$ sudo su
+[root@centos-srv-salt-minion-01 mc]# su - tom
+Last login: Sun Mar  3 02:54:00 EST 2019
+su: failed to execute /bin/nologin: No such file or directory
+[root@centos-srv-salt-minion-01 mc]# exit
+exit
+[mc@centos-srv-salt-minion-01 ~]$ ls
+[mc@centos-srv-salt-minion-01 ~]$ exit
+logout
+Connection to minion-01 closed.
+[mc@salt-master ~]$ salt '*minion-01*' user.chshell tom /bin/bash
+centos-srv-salt-minion-01.home.lab:
+    True
+[mc@salt-master ~]$ ssh minion-01
+Last login: Sun Mar  3 02:54:08 2019 from salt-master.home.lab
+[mc@centos-srv-salt-minion-01 ~]$ sudo su
+[root@centos-srv-salt-minion-01 mc]# su - tom
+Last login: Sun Mar  3 02:54:16 EST 2019 on pts/0
+[tom@centos-srv-salt-minion-01 ~]$ exit
+logout
+[root@centos-srv-salt-minion-01 mc]# exit
+exit
+[mc@centos-srv-salt-minion-01 ~]$ exit
+logout
+Connection to minion-01 closed.
+[mc@salt-master ~]$ salt '*' user.add tom jerry
+centos-srv-salt-minion-01.home.lab:
+    False
+ubuntu-srv-salt-minion-02.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*' user.add tom,jerry
+ubuntu-srv-salt-minion-02.home.lab:
+    False
+centos-srv-salt-minion-01.home.lab:
+    False
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*' user.add tom
+centos-srv-salt-minion-01.home.lab:
+    False
+ubuntu-srv-salt-minion-02.home.lab:
+    True
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*' user.add jerry
+centos-srv-salt-minion-01.home.lab:
+    True
+ubuntu-srv-salt-minion-02.home.lab:
+    True
+[mc@salt-master ~]$ salt '*' cmd.run 'grep -E "tom|jerry" /etc/passwd'
+centos-srv-salt-minion-01.home.lab:
+    tom:x:1001:1001::/home/tom:/bin/bash
+    jerry:x:1002:1002::/home/jerry:/bin/bash
+ubuntu-srv-salt-minion-02.home.lab:
+    tom:x:1001:1001::/home/tom:/bin/sh
+    jerry:x:1002:1002::/home/jerry:/bin/sh
+[mc@salt-master ~]$ 
 
 ```
