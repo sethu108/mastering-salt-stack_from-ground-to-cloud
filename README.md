@@ -780,3 +780,521 @@ pkg.install:
                 'version': '<new-version>',
                 'arch': '<new-arch>'}}}
 ```
+
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions sys
+centos-srv-salt-minion-01.home.lab:
+    - sys.argspec
+    - sys.doc
+    - sys.list_functions
+    - sys.list_modules
+    - sys.list_renderers
+    - sys.list_returner_functions
+    - sys.list_returners
+    - sys.list_runner_functions
+    - sys.list_runners
+    - sys.list_state_functions
+    - sys.list_state_modules
+    - sys.reload_modules
+    - sys.renderer_doc
+    - sys.returner_argspec
+    - sys.returner_doc
+    - sys.runner_argspec
+    - sys.runner_doc
+    - sys.state_argspec
+    - sys.state_doc
+    - sys.state_schema
+```
+### cmd module
+```buildoutcfg
+[mc@salt-master ~]$  salt '*minion-01*' sys.doc cmd
+cmd.exec_code:
+
+    Pass in two strings, the first naming the executable language, aka -
+    python2, python3, ruby, perl, lua, etc. the second string containing
+    the code you wish to execute. The stdout will be returned.
+
+    All parameters from :mod:`cmd.run_all <salt.modules.cmdmod.run_all>` except python_shell can be used.
+
+    CLI Example:
+
+        salt '*' cmd.exec_code ruby 'puts "cheese"'
+        salt '*' cmd.exec_code ruby 'puts "cheese"' args='["arg1", "arg2"]' env='{"FOO": "bar"}'
+    
+
+cmd.exec_code_all:
+
+    Pass in two strings, the first naming the executable language, aka -
+    python2, python3, ruby, perl, lua, etc. the second string containing
+    the code you wish to execute. All cmd artifacts (stdout, stderr, retcode, pid)
+    will be returned.
+
+    All parameters from :mod:`cmd.run_all <salt.modules.cmdmod.run_all>` except python_shell can be used.
+```
+
+```buildoutcfg
+[mc@salt-master ~]$  salt '*minion-01*' sys.doc cmd.run
+cmd.run:
+
+    Execute the passed command and return the output as a string
+
+    :param str cmd: The command to run. ex: ``ls -lart /home``
+
+    :param str cwd: The directory from which to execute the command. Defaults
+        to the home directory of the user specified by ``runas`` (or the user
+        under which Salt is running if ``runas`` is not specified).
+
+    :param str stdin: A string of standard input can be specified for the
+        command to be run using the ``stdin`` parameter. This can be useful in
+        cases where sensitive information must be read from standard input.
+
+    :param str runas: Specify an alternate user to run the command. The default
+        behavior is to run as the user under which Salt is running.
+
+        Warning:
+
+            For versions 2018.3.3 and above on macosx while using runas,
+            to pass special characters to the command you need to escape
+            the characters on the shell.
+
+            Example:
+
+                cmd.run 'echo '\''h=\"baz\"'\''' runas=macuser
+
+    :param str group: Group to run command as. Not currently supported
+        on Windows.
+
+    :param str password: Windows only. Required when specifying ``runas``. This
+        parameter will be ignored on non-Windows platforms.
+
+        New in version 2016.3.0
+
+    :param str shell: Specify an alternate shell. Defaults to the system's
+        default shell.
+
+    :param bool python_shell: If ``False``, let python handle the positional
+        arguments. Set to ``True`` to use shell features, such as pipes or
+        redirection.
+
+    :param bool bg: If ``True``, run command in background and do not await or
+        deliver it's results
+
+        New in version 2016.3.0
+
+    :param dict env: Environment variables to be set prior to execution.
+
+        Note:
+            When passing environment variables on the CLI, they should be
+            passed as the string representation of a dictionary.
+
+                salt myminion cmd.run 'some command' env='{"FOO": "bar"}'
+
+    :param bool clean_env: Attempt to clean out all other shell environment
+        variables and set only those provided in the 'env' argument to this
+        function.
+
+    :param str prepend_path: $PATH segment to prepend (trailing ':' not
+        necessary) to $PATH
+
+        New in version 2018.3.0
+
+    :param str template: If this setting is applied then the named templating
+        engine will be used to render the downloaded file. Currently jinja,
+        mako, and wempy are supported.
+
+    :param bool rstrip: Strip all whitespace off the end of output before it is
+        returned.
+
+    :param str umask: The umask (in octal) to use when running the command.
+
+    :param str output_encoding: Control the encoding used to decode the
+        command's output.
+
+        Note:
+            This should not need to be used in most cases. By default, Salt
+            will try to use the encoding detected from the system locale, and
+            will fall back to UTF-8 if this fails. This should only need to be
+            used in cases where the output of the command is encoded in
+            something other than the system locale or UTF-8.
+
+            To see the encoding Salt has detected from the system locale, check
+            the `locale` line in the output of :py:func:`test.versions_report
+            <salt.modules.test.versions_report>`.
+
+        New in version 2018.3.0
+
+    :param str output_loglevel: Control the loglevel at which the output from
+        the command is logged to the minion log.
+
+        Note:
+            The command being run will still be logged at the ``debug``
+            loglevel regardless, unless ``quiet`` is used for this value.
+
+    :param bool ignore_retcode: If the exit code of the command is nonzero,
+        this is treated as an error condition, and the output from the command
+        will be logged to the minion log. However, there are some cases where
+        programs use the return code for signaling and a nonzero exit code
+        doesn't necessarily mean failure. Pass this argument as ``True`` to
+        skip logging the output if the command has a nonzero exit code.
+
+    :param bool hide_output: If ``True``, suppress stdout and stderr in the
+        return data.
+
+        Note:
+            This is separate from ``output_loglevel``, which only handles how
+            Salt logs to the minion log.
+
+        New in version 2018.3.0
+
+    :param int timeout: A timeout in seconds for the executed process to return.
+
+    :param bool use_vt: Use VT utils (saltstack) to stream the command output
+        more interactively to the console and the logs. This is experimental.
+
+    :param bool encoded_cmd: Specify if the supplied command is encoded.
+        Only applies to shell 'powershell'.
+
+    :param bool raise_err: If ``True`` and the command has a nonzero exit code,
+        a CommandExecutionError exception will be raised.
+
+    Warning:
+        This function does not process commands through a shell
+        unless the python_shell flag is set to True. This means that any
+        shell-specific functionality such as 'echo' or the use of pipes,
+        redirection or &&, should either be migrated to cmd.shell or
+        have the python_shell=True flag set here.
+
+        The use of python_shell=True means that the shell will accept _any_ input
+        including potentially malicious commands such as 'good_command;rm -rf /'.
+        Be absolutely certain that you have sanitized your input prior to using
+        python_shell=True
+
+    :param list success_retcodes: This parameter will be allow a list of
+        non-zero return codes that should be considered a success.  If the
+        return code returned from the run matches any in the provided list,
+        the return code will be overridden with zero.
+
+      New in version 2019.2.0
+
+    :param bool stdin_raw_newlines: False
+        If ``True``, Salt will not automatically convert the characters ``\\n``
+        present in the ``stdin`` value to newlines.
+
+      New in version 2019.2.0
+
+    CLI Example:
+
+        salt '*' cmd.run "ls -l | awk '/foo/{print \\$2}'"
+
+    The template arg can be set to 'jinja' or another supported template
+    engine to render the command arguments before execution.
+    For example:
+
+        salt '*' cmd.run template=jinja "ls -l /tmp/{{grains.id}} | awk '/foo/{print \\$2}'"
+
+    Specify an alternate shell with the shell parameter:
+
+        salt '*' cmd.run "Get-ChildItem C:\\ " shell='powershell'
+
+    A string of standard input can be specified for the command to be run using
+    the ``stdin`` parameter. This can be useful in cases where sensitive
+    information must be read from standard input.
+
+        salt '*' cmd.run "grep f" stdin='one\\ntwo\\nthree\\nfour\\nfive\\n'
+
+    If an equal sign (``=``) appears in an argument to a Salt command it is
+    interpreted as a keyword argument in the format ``key=val``. That
+    processing can be bypassed in order to pass an equal sign through to the
+    remote shell command by manually specifying the kwarg:
+
+        salt '*' cmd.run cmd='sed -e s/=/:/g'
+```
+
+### pkg module
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep available
+    - pkg.available_version
+    - pkg.upgrade_available
+[mc@salt-master ~]$ salt '*' pkg.available_version vim
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' pkg.upgrade_available vim
+ubuntu-srv-salt-minion-02.home.lab:
+    False
+centos-srv-salt-minion-01.home.lab:
+    False
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep install
+    - pkg.group_install
+    - pkg.groupinstall
+    - pkg.info_installed
+    - pkg.install
+    - pkg.list_installed_patches
+[mc@salt-master ~]$ salt '*' pkg.info_installed vim
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        architecture:
+            amd64
+        description:
+            Vi IMproved - enhanced vi editor
+             Vim is an almost compatible version of the UNIX editor Vi.
+             .
+             Many new features have been added: multi level undo, syntax
+             highlighting, command line history, on-line help, filename
+             completion, block operations, folding, Unicode support, etc.
+             .
+             This package contains a version of vim compiled with a rather
+             standard set of features.  This package does not provide a GUI
+             version of Vim.  See the other vim-* packages if you need more
+             (or less).
+        group:
+            editors
+        install_date:
+            2019-03-13T07:08:50Z
+        license:
+            Apache, Apache or Expat, Artistic-1, BSD-2-clause, BSD-3-clause, Compaq, Expat, Expat or GPL-2, Expat or Vim, GPL-1+, GPL-1+ or Artistic-1, GPL-2, GPL-2+, OPL-1+, SRA, UC, Vim, Vim-Regexp, X11, XPM, public-domain
+        name:
+            vim
+        packager:
+            Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+        source:
+            vim
+        url:
+            https://vim.sourceforge.io/
+        version:
+            2:8.0.1453-1ubuntu1
+centos-srv-salt-minion-01.home.lab:
+    ERROR: package vim is not installed
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*' pkg.info_installed vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ERROR: Error getting packages information: dpkg-query: no packages found matching vim-enhanced
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        arch:
+            x86_64
+        build_date:
+            2018-10-30T19:57:29Z
+        build_date_time_t:
+            1540929449
+        build_host:
+            x86-01.bsys.centos.org
+        description:
+            VIM (VIsual editor iMproved) is an updated and improved version of the
+            vi editor.  Vi was the first real screen-based editor for UNIX, and is
+            still very popular.  VIM improves on vi by adding new features:
+            multiple windows, multi-level undo, block highlighting and more.  The
+            vim-enhanced package contains a version of VIM with extra, recently
+            introduced features like Python and Perl interpreters.
+            
+            Install the vim-enhanced package if you'd like to use a version of the
+            VIM editor which includes recently added enhancements like
+            interpreters for the Python and Perl scripting languages.  You'll also
+            need to install the vim-common package.
+        epoch:
+            2
+        group:
+            Applications/Editors
+        install_date:
+            2019-02-28T20:46:48Z
+        install_date_time_t:
+            1551386808
+        license:
+            Vim
+        packager:
+            CentOS BuildSystem <http://bugs.centos.org>
+        release:
+            5.el7
+        relocations:
+            (not relocatable)
+        signature:
+            RSA/SHA256, Mon Nov 12 14:48:44 2018, Key ID 24c6a8a7f4a80eb5
+        size:
+            2296666
+        source:
+            vim-7.4.160-5.el7.src.rpm
+        summary:
+            A version of the VIM editor which includes recent enhancements
+        url:
+            http://www.vim.org/
+        vendor:
+            CentOS
+        version:
+            7.4.160
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep remove
+    - pkg.remove
+[mc@salt-master ~]$ salt '*' pkg.remove vim
+centos-srv-salt-minion-01.home.lab:
+    ----------
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+        old:
+            2:8.0.1453-1ubuntu1
+[mc@salt-master ~]$ salt '*' pkg.remove vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+        old:
+            2:7.4.160-5.el7
+[mc@salt-master ~]$ salt '*' pkg.available_version vim
+ubuntu-srv-salt-minion-02.home.lab:
+    2:8.0.1453-1ubuntu1
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' pkg.available_version vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+    2:7.4.160-5.el7
+[mc@salt-master ~]$ salt '*' sys.doc pkg.available_version 
+pkg.available_version:
+
+This function is an alias of ``latest_version``.
+
+    Return the latest version of the named package available for upgrade or
+    installation. If more than one package name is specified, a dict of
+    name/version pairs is returned.
+
+    If the latest version of a given package is already installed, an empty
+    string will be returned for that package.
+
+    A specific repo can be requested using the ``fromrepo`` keyword argument,
+    and the ``disableexcludes`` option is also supported.
+
+    New in version 2014.7.0
+        Support for the ``disableexcludes`` option
+
+    CLI Example:
+
+        salt '*' pkg.latest_version <package name>
+        salt '*' pkg.latest_version <package name> fromrepo=epel-testing
+        salt '*' pkg.latest_version <package name> disableexcludes=main
+        salt '*' pkg.latest_version <package1> <package2> <package3> ...
+    
+
+[mc@salt-master ~]$ salt '*' pkg.available_version vim vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        2:8.0.1453-1ubuntu1
+    vim-enhanced:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim:
+    vim-enhanced:
+        2:7.4.160-5.el7
+[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+            2:7.4.160-5.el7
+        old:
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+            2:8.0.1453-1ubuntu1
+        old:
+[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+centos-srv-salt-minion-01.home.lab:
+    ----------
+
+
+[mc@salt-master ~]$ salt '*' sys.list_functions pkg
+ubuntu-srv-salt-minion-02.home.lab:
+    - pkg.add_repo_key
+    - pkg.autoremove
+    - pkg.available_version
+    - pkg.del_repo
+    - pkg.del_repo_key
+    - pkg.expand_repo_def
+    - pkg.file_dict
+    - pkg.file_list
+    - pkg.get_repo
+    - pkg.get_repo_keys
+    - pkg.get_selections
+    - pkg.hold
+    - pkg.info_installed
+    - pkg.install
+    - pkg.latest_version
+    - pkg.list_pkgs
+    - pkg.list_repo_pkgs
+    - pkg.list_repos
+    - pkg.list_upgrades
+    - pkg.mod_repo
+    - pkg.owner
+    - pkg.purge
+    - pkg.refresh_db
+    - pkg.remove
+    - pkg.set_selections
+    - pkg.show
+    - pkg.unhold
+    - pkg.upgrade
+    - pkg.upgrade_available
+    - pkg.version
+    - pkg.version_cmp
+centos-srv-salt-minion-01.home.lab:
+    - pkg.available_version
+    - pkg.clean_metadata
+    - pkg.del_repo
+    - pkg.diff
+    - pkg.download
+    - pkg.file_dict
+    - pkg.file_list
+    - pkg.get_locked_packages
+    - pkg.get_repo
+    - pkg.group_diff
+    - pkg.group_info
+    - pkg.group_install
+    - pkg.group_list
+    - pkg.groupinstall
+    - pkg.hold
+    - pkg.info_installed
+    - pkg.install
+    - pkg.latest_version
+    - pkg.list_downloaded
+    - pkg.list_holds
+    - pkg.list_installed_patches
+    - pkg.list_patches
+    - pkg.list_pkgs
+    - pkg.list_repo_pkgs
+    - pkg.list_repos
+    - pkg.list_updates
+    - pkg.list_upgrades
+    - pkg.mod_repo
+    - pkg.modified
+    - pkg.normalize_name
+    - pkg.owner
+    - pkg.purge
+    - pkg.refresh_db
+    - pkg.remove
+    - pkg.unhold
+    - pkg.update
+    - pkg.upgrade
+    - pkg.upgrade_available
+    - pkg.verify
+    - pkg.version
+    - pkg.version_cmp
+
+
+### pkg.list_pkgs
+
+### pkg.available_version
+
+### pkg.install
+
+## user module
