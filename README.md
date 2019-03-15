@@ -433,7 +433,59 @@ Saltstack contains extensive docstrings for its codebase. To access these docstr
 use the sys execution module.
 
 ```buildoutcfg
-salt '*minion-01*' sys.doc test.ping 
+salt '*minion-01*' sys.doc test.ping
+test.ping:
+
+    Used to make sure the minion is up and responding. Not an ICMP ping.
+
+    Returns ``True``.
+
+    CLI Example:
+
+        salt '*' test.ping
+
+```
+
+```
+salt '*minion-01*' sys.doc test
+test.arg:
+
+    Print out the data passed into the function ``*args`` and ```kwargs``, this
+    is used to both test the publication data and cli argument passing, but
+    also to display the information available within the publication data.
+    Returns {"args": args, "kwargs": kwargs}.
+
+    CLI Example:
+
+        salt '*' test.arg 1 "two" 3.1 txt="hello" wow='{a: 1, b: "hello"}'
+    
+
+test.arg_clean:
+
+    Like test.arg but cleans kwargs of the __pub* items
+    CLI Example:
+
+        salt '*' test.arg_clean 1 "two" 3.1 txt="hello" wow='{a: 1, b: "hello"}'
+```
+
+```
+268  salt '*minion-01*' sys.doc test
+  269  vim README.md 
+  270  salt '*minion-01*' sys.doc 
+  271  salt '*minion-01*' sys.list_modules
+  272  salt '*minion-01*' sys.list_functions
+  273  salt '*minion-01*' sys.list_functions test
+  274  salt '*minion-01*' sys.list_functions test.ping
+  275  salt '*minion-01*' sys.argspecs
+  276  salt '*minion-01*' sys.argspec
+  277  salt '*minion-01*' sys.list_modules | grep vmware
+  278  salt '*minion-01*' sys.list_modules | grep virtual
+  279  salt '*minion-01*' sys.doc virtualenv
+  280  salt '*minion-01*' sys.list_functions virtualenv
+  281  salt '*minion-01*' sys.doc virtualenv.create
+  282  salt '*minion-01*' sys.list_modules | grep esxi
+  283  salt '*minion-01*' sys.list_modules | grep cloud
+
 ```
 
 
