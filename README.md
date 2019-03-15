@@ -424,3 +424,17 @@ ubuntu-srv-salt-minion-02.home.lab:
 ```
 
 https://docs.saltstack.com/en/latest/ref/configuration/nonroot.html
+
+# Accessing Saltstack documentation
+
+## sys.doc basics
+The sys modules will give you additional insight into the modules and functions on a given minion.
+Saltstack contains extensive docstrings for its codebase. To access these docstrings, we can
+use the sys execution module.
+
+```buildoutcfg
+salt sys.doc test.ping
+```
+
+
+ 
