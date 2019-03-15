@@ -433,7 +433,7 @@ Saltstack contains extensive docstrings for its codebase. To access these docstr
 use the sys execution module.
 
 ```buildoutcfg
-salt '*minion-01*' sys.doc test.ping
+salt '*minion-01*' sys.doc test.ping 
 ```
 
 
