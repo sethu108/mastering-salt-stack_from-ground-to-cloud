@@ -1548,3 +1548,777 @@ ubuntu-srv-salt-minion-02.home.lab:
 [mc@salt-master ~]$ 
 
 ```
+
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions saltutil
+centos-srv-salt-minion-01.home.lab:
+    - saltutil.clear_cache
+    - saltutil.clear_job_cache
+    - saltutil.cmd
+    - saltutil.cmd_iter
+    - saltutil.find_cached_job
+    - saltutil.find_job
+    - saltutil.is_running
+    - saltutil.kill_all_jobs
+    - saltutil.kill_job
+    - saltutil.list_extmods
+    - saltutil.mmodule
+    - saltutil.pillar_refresh
+    - saltutil.refresh_beacons
+    - saltutil.refresh_grains
+    - saltutil.refresh_matchers
+    - saltutil.refresh_modules
+    - saltutil.refresh_pillar
+    - saltutil.regen_keys
+    - saltutil.revoke_auth
+    - saltutil.runner
+    - saltutil.running
+    - saltutil.signal_job
+    - saltutil.sync_all
+    - saltutil.sync_beacons
+    - saltutil.sync_clouds
+    - saltutil.sync_engines
+    - saltutil.sync_grains
+    - saltutil.sync_log_handlers
+    - saltutil.sync_matchers
+    - saltutil.sync_modules
+    - saltutil.sync_output
+    - saltutil.sync_outputters
+    - saltutil.sync_pillar
+    - saltutil.sync_proxymodules
+    - saltutil.sync_renderers
+    - saltutil.sync_returners
+    - saltutil.sync_sdb
+    - saltutil.sync_serializers
+    - saltutil.sync_states
+    - saltutil.sync_thorium
+    - saltutil.sync_utils
+    - saltutil.term_all_jobs
+    - saltutil.term_job
+    - saltutil.update
+    - saltutil.wheel
+```
+
+```buildoutcfg
+: Permanently added 'ubuntu-srv-salt-minion-02.home.lab' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.15.0-45-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 15 14:25:34 UTC 2019
+
+  System load:  0.0                Processes:             150
+  Usage of /:   10.5% of 29.40GB   Users logged in:       0
+  Memory usage: 25%                IP address for ens160: 172.16.2.120
+  Swap usage:   0%
+
+
+4 packages can be updated.
+0 updates are security updates.
+
+
+*** System restart required ***
+Last login: Fri Mar 15 14:24:16 2019 from 172.16.2.101
+mc@ubuntu-srv-salt-minion-02:~$ ls
+mc@ubuntu-srv-salt-minion-02:~$ clear
+
+mc@ubuntu-srv-salt-minion-02:~$ ls
+mc@ubuntu-srv-salt-minion-02:~$ ping google.com
+PING google.com (172.217.17.238) 56(84) bytes of data.
+64 bytes from ber01s08-in-f238.1e100.net (172.217.17.238): icmp_seq=1 ttl=54 time=19.4 ms
+64 bytes from ber01s08-in-f238.1e100.net (172.217.17.238): icmp_seq=2 ttl=54 time=19.3 ms
+^C
+--- google.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 19.310/19.400/19.491/0.166 ms
+mc@ubuntu-srv-salt-minion-02:~$ ping salt-master
+PING salt-master.home.lab (172.16.2.101) 56(84) bytes of data.
+64 bytes from salt-master.home.lab (172.16.2.101): icmp_seq=1 ttl=64 time=0.037 ms
+64 bytes from salt-master.home.lab (172.16.2.101): icmp_seq=2 ttl=64 time=0.121 ms
+^C
+--- salt-master.home.lab ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1014ms
+rtt min/avg/max/mdev = 0.037/0.079/0.121/0.042 ms
+mc@ubuntu-srv-salt-minion-02:~$ sudo systemctl status salt-minion
+[sudo] password for mc: 
+● salt-minion.service - The Salt Minion
+   Loaded: loaded (/lib/systemd/system/salt-minion.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Fri 2019-03-15 14:16:39 UTC; 9min ago
+     Docs: man:salt-minion(1)
+           file:///usr/share/doc/salt/html/contents.html
+           https://docs.saltstack.com/en/latest/contents.html
+  Process: 4320 ExecStart=/usr/bin/salt-minion (code=exited, status=245)
+ Main PID: 4320 (code=exited, status=245)
+    Tasks: 1 (limit: 1111)
+   CGroup: /system.slice/salt-minion.service
+           └─4345 /usr/bin/python2 /usr/bin/salt-minion
+
+Feb 28 18:08:51 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:01 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:11 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:21 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:31 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:41 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:09:51 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Feb 28 18:10:01 ubuntu-srv-salt-minion-02 salt-minion[4320]: [ERROR   ] The Salt Master has cached
+Mar 15 14:16:39 ubuntu-srv-salt-minion-02 systemd[1]: salt-minion.service: Main process exited, co
+Mar 15 14:16:39 ubuntu-srv-salt-minion-02 systemd[1]: salt-minion.service: Failed with result 'exi
+lines 1-22/22 (END)
+mc@ubuntu-srv-salt-minion-02:~$ sudo systemctl start salt-minion
+mc@ubuntu-srv-salt-minion-02:~$ sudo visudo 
+mc@ubuntu-srv-salt-minion-02:~$ sudo systemctl start salt-minion
+mc@ubuntu-srv-salt-minion-02:~$ sudo systemctl status salt-minion
+● salt-minion.service - The Salt Minion
+   Loaded: loaded (/lib/systemd/system/salt-minion.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2019-03-15 14:26:16 UTC; 41s ago
+     Docs: man:salt-minion(1)
+           file:///usr/share/doc/salt/html/contents.html
+           https://docs.saltstack.com/en/latest/contents.html
+ Main PID: 5099 (salt-minion)
+    Tasks: 7 (limit: 1111)
+   CGroup: /system.slice/salt-minion.service
+           ├─4345 /usr/bin/python2 /usr/bin/salt-minion
+           ├─5099 /usr/bin/python2 /usr/bin/salt-minion
+           ├─5101 /usr/bin/python2 /usr/bin/salt-minion
+           └─5104 /usr/bin/python2 /usr/bin/salt-minion
+
+Mar 15 14:26:16 ubuntu-srv-salt-minion-02 systemd[1]: salt-minion.service: Found left-over process
+Mar 15 14:26:16 ubuntu-srv-salt-minion-02 systemd[1]: This usually indicates unclean termination o
+Mar 15 14:26:16 ubuntu-srv-salt-minion-02 systemd[1]: Starting The Salt Minion...
+Mar 15 14:26:16 ubuntu-srv-salt-minion-02 systemd[1]: Started The Salt Minion.
+Mar 15 14:26:16 ubuntu-srv-salt-minion-02 salt-minion[5099]: /usr/lib/python2.7/dist-packages/salt
+lines 1-19/19 (END)
+mc@ubuntu-srv-salt-minion-02:~$ exzit
+exzit: command not found
+mc@ubuntu-srv-salt-minion-02:~$ exit
+logout
+Connection to ubuntu-srv-salt-minion-02.home.lab closed.
+[mc@salt-master ~]$ salt '*minion-02*' sys.list_functions saltutil
+ubuntu-srv-salt-minion-02.home.lab:
+    - saltutil.clear_cache
+    - saltutil.clear_job_cache
+    - saltutil.cmd
+    - saltutil.cmd_iter
+    - saltutil.find_cached_job
+    - saltutil.find_job
+    - saltutil.is_running
+    - saltutil.kill_all_jobs
+    - saltutil.kill_job
+    - saltutil.list_extmods
+    - saltutil.mmodule
+    - saltutil.pillar_refresh
+    - saltutil.refresh_beacons
+    - saltutil.refresh_grains
+    - saltutil.refresh_matchers
+    - saltutil.refresh_modules
+    - saltutil.refresh_pillar
+    - saltutil.regen_keys
+    - saltutil.revoke_auth
+    - saltutil.runner
+    - saltutil.running
+    - saltutil.signal_job
+    - saltutil.sync_all
+    - saltutil.sync_beacons
+    - saltutil.sync_clouds
+    - saltutil.sync_engines
+    - saltutil.sync_grains
+    - saltutil.sync_log_handlers
+    - saltutil.sync_matchers
+    - saltutil.sync_modules
+    - saltutil.sync_output
+    - saltutil.sync_outputters
+    - saltutil.sync_pillar
+    - saltutil.sync_proxymodules
+    - saltutil.sync_renderers
+    - saltutil.sync_returners
+    - saltutil.sync_sdb
+    - saltutil.sync_serializers
+    - saltutil.sync_states
+    - saltutil.sync_thorium
+    - saltutil.sync_utils
+    - saltutil.term_all_jobs
+    - saltutil.term_job
+    - saltutil.update
+    - saltutil.wheel
+[mc@salt-master ~]$ salt '*' saltutil.sync_all
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60'
+
+^C
+Exiting gracefully on Ctrl-c
+This job's jid is: 20190315152808755323
+The minions may not have all finished running and any remaining minions will return upon completion. To look up the return data for this job later, run the following command:
+
+salt-run jobs.lookup_jid 20190315152808755323
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60 &'
+^C
+Exiting gracefully on Ctrl-c
+This job's jid is: 20190315152828065970
+The minions may not have all finished running and any remaining minions will return upon completion. To look up the return data for this job later, run the following command:
+
+salt-run jobs.lookup_jid 20190315152828065970
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60 &' runas=mc
+
+
+^C[ERROR   ] An un-handled exception was caught by salt's global exception handler:
+Exception: DummyFuture does not support blocking for results
+Traceback (most recent call last):
+  File "/usr/bin/salt", line 10, in <module>
+    salt_main()
+  File "/usr/lib/python2.7/site-packages/salt/scripts.py", line 485, in salt_main
+    client.run()
+  File "/usr/lib/python2.7/site-packages/salt/cli/salt.py", line 193, in run
+    for full_ret in cmd_func(**kwargs):
+  File "/usr/lib/python2.7/site-packages/salt/client/__init__.py", line 843, in cmd_cli
+    self.event.close_pub()
+  File "/usr/lib/python2.7/site-packages/salt/utils/event.py", line 398, in close_pub
+    self.subscriber.close()
+  File "/usr/lib/python2.7/site-packages/salt/transport/ipc.py", line 755, in close
+    self._read_sync_future.exception()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 278, in exception
+    self._check_done()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 342, in _check_done
+    raise Exception("DummyFuture does not support blocking for results")
+Exception: DummyFuture does not support blocking for results
+Traceback (most recent call last):
+  File "/usr/bin/salt", line 10, in <module>
+    salt_main()
+  File "/usr/lib/python2.7/site-packages/salt/scripts.py", line 485, in salt_main
+    client.run()
+  File "/usr/lib/python2.7/site-packages/salt/cli/salt.py", line 193, in run
+    for full_ret in cmd_func(**kwargs):
+  File "/usr/lib/python2.7/site-packages/salt/client/__init__.py", line 843, in cmd_cli
+    self.event.close_pub()
+  File "/usr/lib/python2.7/site-packages/salt/utils/event.py", line 398, in close_pub
+    self.subscriber.close()
+  File "/usr/lib/python2.7/site-packages/salt/transport/ipc.py", line 755, in close
+    self._read_sync_future.exception()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 278, in exception
+    self._check_done()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 342, in _check_done
+    raise Exception("DummyFuture does not support blocking for results")
+Exception: DummyFuture does not support blocking for results
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60'
+^C[ERROR   ] An un-handled exception was caught by salt's global exception handler:
+Exception: DummyFuture does not support blocking for results
+Traceback (most recent call last):
+  File "/usr/bin/salt", line 10, in <module>
+    salt_main()
+  File "/usr/lib/python2.7/site-packages/salt/scripts.py", line 485, in salt_main
+    client.run()
+  File "/usr/lib/python2.7/site-packages/salt/cli/salt.py", line 193, in run
+    for full_ret in cmd_func(**kwargs):
+  File "/usr/lib/python2.7/site-packages/salt/client/__init__.py", line 843, in cmd_cli
+    self.event.close_pub()
+  File "/usr/lib/python2.7/site-packages/salt/utils/event.py", line 398, in close_pub
+    self.subscriber.close()
+  File "/usr/lib/python2.7/site-packages/salt/transport/ipc.py", line 755, in close
+    self._read_sync_future.exception()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 278, in exception
+    self._check_done()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 342, in _check_done
+    raise Exception("DummyFuture does not support blocking for results")
+Exception: DummyFuture does not support blocking for results
+Traceback (most recent call last):
+  File "/usr/bin/salt", line 10, in <module>
+    salt_main()
+  File "/usr/lib/python2.7/site-packages/salt/scripts.py", line 485, in salt_main
+    client.run()
+  File "/usr/lib/python2.7/site-packages/salt/cli/salt.py", line 193, in run
+    for full_ret in cmd_func(**kwargs):
+  File "/usr/lib/python2.7/site-packages/salt/client/__init__.py", line 843, in cmd_cli
+    self.event.close_pub()
+  File "/usr/lib/python2.7/site-packages/salt/utils/event.py", line 398, in close_pub
+    self.subscriber.close()
+  File "/usr/lib/python2.7/site-packages/salt/transport/ipc.py", line 755, in close
+    self._read_sync_future.exception()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 278, in exception
+    self._check_done()
+  File "/usr/lib/python2.7/site-packages/tornado/concurrent.py", line 342, in _check_done
+    raise Exception("DummyFuture does not support blocking for results")
+Exception: DummyFuture does not support blocking for results
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60' &
+[1] 16681
+[mc@salt-master ~]$ salt '*' saltutil.sync_all
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+[mc@salt-master ~]$ salt '*' saltutil.sync_all
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 60' &
+[2] 16739
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152929369278
+      pid:
+          5541
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152845653848
+      pid:
+          5338
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152842015700
+      pid:
+          5333
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+    |_
+      ----------
+      arg:
+          - sleep 60 &
+          |_
+            ----------
+            __kwarg__:
+                True
+            runas:
+                mc
+      fun:
+          cmd.run
+      jid:
+          20190315152834408721
+      pid:
+          5309
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ ubuntu-srv-salt-minion-02.home.lab:
+salt '*' saltutil.running
+centos-srv-salt-minion-01.home.lab:
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152929369278
+      pid:
+          5541
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+[1]-  Done                    salt '*minion-02*' cmd.run 'sleep 60'
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152929369278
+      pid:
+          5541
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152929369278
+      pid:
+          5541
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 60
+      fun:
+          cmd.run
+      jid:
+          20190315152929369278
+      pid:
+          5541
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*minion-02*' saltutil.kill_job ubuntu-srv-salt-minion-02.home.lab:
+^C
+[2]+  Done                    salt '*minion-02*' cmd.run 'sleep 60'
+[mc@salt-master ~]$ salt '*minion-02*' cmd.run 'sleep 200' &
+[1] 16898
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 200
+      fun:
+          cmd.run
+      jid:
+          20190315153052633083
+      pid:
+          5621
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 200
+      fun:
+          cmd.run
+      jid:
+          20190315153052633083
+      pid:
+          5621
+      ret:
+      tgt:
+          *minion-02*
+      tgt_type:
+          glob
+      user:
+          mc
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.kill_job 20190315153052633083
+centos-srv-salt-minion-01.home.lab:
+ubuntu-srv-salt-minion-02.home.lab:
+    Signal 9 sent to job 20190315153052633083 at pid 5621
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ ubuntu-srv-salt-minion-02.home.lab:
+    Minion did not return. [No response]
+salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[1]+  Done                    salt '*minion-02*' cmd.run 'sleep 200'
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ ssh minion-01
+Last login: Thu Feb 28 15:19:55 2019 from salt-master.home.lab
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum update salt
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.imt-systems.com
+ * extras: mirror.netcologne.de
+ * updates: centos.schlundtech.de
+No packages marked for update
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum update salt-minion
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.imt-systems.com
+ * extras: mirror.netcologne.de
+ * updates: centos.schlundtech.de
+No packages marked for update
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum upgradesalt-minion
+Loaded plugins: fastestmirror
+No such command: upgradesalt-minion. Please use /bin/yum --help
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum upgrade salt-minion
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.imt-systems.com
+ * extras: mirror.netcologne.de
+ * updates: centos.schlundtech.de
+No packages marked for update
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum search salt
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.imt-systems.com
+ * extras: mirror.netcologne.de
+ * updates: centos.schlundtech.de
+======================================= N/S matched: salt ========================================
+salt-api.noarch : REST API for Salt, a parallel remote execution system
+salt-cloud.noarch : Cloud provisioner for Salt, a parallel remote execution system
+salt-master.noarch : Management component for salt, a parallel remote execution system
+salt-minion.noarch : Client component for Salt, a parallel remote execution system
+salt-repo.noarch : Repo configuration for SaltStack latest release cycle
+salt-ssh.noarch : Agentless SSH-based version of Salt, a parallel remote execution system
+salt-syndic.noarch : Master-of-master component for Salt, a parallel remote execution system
+salt.noarch : A parallel remote execution system
+
+  Name and summary matches only, use "search all" for everything.
+[mc@centos-srv-salt-minion-01 ~]$ sudo yum install salt-cloud
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.imt-systems.com
+ * extras: mirror.netcologne.de
+ * updates: centos.schlundtech.de
+Resolving Dependencies
+--> Running transaction check
+---> Package salt-cloud.noarch 0:2019.2.0-1.el7 will be installed
+--> Processing Dependency: salt-master = 2019.2.0-1.el7 for package: salt-cloud-2019.2.0-1.el7.noarch
+--> Processing Dependency: python-libcloud for package: salt-cloud-2019.2.0-1.el7.noarch
+--> Running transaction check
+---> Package python2-libcloud.noarch 0:2.0.0-2.el7 will be installed
+---> Package salt-master.noarch 0:2019.2.0-1.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+==================================================================================================
+ Package                    Arch             Version                  Repository             Size
+==================================================================================================
+Installing:
+ salt-cloud                 noarch           2019.2.0-1.el7           salt-latest            21 k
+Installing for dependencies:
+ python2-libcloud           noarch           2.0.0-2.el7              salt-latest           1.3 M
+ salt-master                noarch           2019.2.0-1.el7           salt-latest           2.8 M
+
+Transaction Summary
+==================================================================================================
+Install  1 Package (+2 Dependent packages)
+
+Total download size: 4.2 M
+Installed size: 10 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/3): salt-cloud-2019.2.0-1.el7.noarch.rpm                                |  21 kB  00:00:01     
+(2/3): python2-libcloud-2.0.0-2.el7.noarch.rpm                             | 1.3 MB  00:00:02     
+(3/3): salt-master-2019.2.0-1.el7.noarch.rpm                               | 2.8 MB  00:00:01     
+--------------------------------------------------------------------------------------------------
+Total                                                             1.5 MB/s | 4.2 MB  00:00:02     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : salt-master-2019.2.0-1.el7.noarch                                              1/3 
+  Installing : python2-libcloud-2.0.0-2.el7.noarch                                            2/3 
+  Installing : salt-cloud-2019.2.0-1.el7.noarch                                               3/3 
+  Verifying  : python2-libcloud-2.0.0-2.el7.noarch                                            1/3 
+  Verifying  : salt-cloud-2019.2.0-1.el7.noarch                                               2/3 
+  Verifying  : salt-master-2019.2.0-1.el7.noarch                                              3/3 
+
+Installed:
+  salt-cloud.noarch 0:2019.2.0-1.el7                                                              
+
+Dependency Installed:
+  python2-libcloud.noarch 0:2.0.0-2.el7            salt-master.noarch 0:2019.2.0-1.el7           
+
+Complete!
+[mc@centos-srv-salt-minion-01 ~]$ exit
+logout
+Connection to minion-01 closed.
+[mc@salt-master ~]$ 
+[mc@salt-master ~]$ salt '*' saltutil.sync_all
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    beacons:
+    clouds:
+    engines:
+    grains:
+    log_handlers:
+    matchers:
+    modules:
+    output:
+    proxymodules:
+    renderers:
+    returners:
+    sdb:
+    serializers:
+    states:
+    thorium:
+    utils:
+[mc@salt-master ~]$ 
+```
