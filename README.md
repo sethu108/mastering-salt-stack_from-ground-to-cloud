@@ -353,7 +353,7 @@ ubuntu-srv-salt-minion-02.home.lab:
 
 ## Glob
 Shell globs can be used to a list of minions
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
@@ -362,7 +362,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 Combine shell-glob with minion ID:
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*srv*' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
@@ -433,7 +433,7 @@ Saltstack contains extensive docstrings for its codebase. To access these docstr
 use the sys execution module.
 
 ```buildoutcfg
-salt '*minion-01*' sys.doc test.ping
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc test.ping
 test.ping:
 
     Used to make sure the minion is up and responding. Not an ICMP ping.
@@ -446,8 +446,8 @@ test.ping:
 
 ```
 
-```
-salt '*minion-01*' sys.doc test
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc test
 test.arg:
 
     Print out the data passed into the function ``*args`` and ```kwargs``, this
@@ -468,25 +468,15 @@ test.arg_clean:
         salt '*' test.arg_clean 1 "two" 3.1 txt="hello" wow='{a: 1, b: "hello"}'
 ```
 
+```buildoutcfg
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc test
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_modules
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions test
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions test.ping
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_modules | grep cloud
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc cloud
+[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions cloud
+[mc@salt-master ~]$ salt '*minion-01*' sys.doc cloud.create
 ```
-268  salt '*minion-01*' sys.doc test
-  269  vim README.md 
-  270  salt '*minion-01*' sys.doc 
-  271  salt '*minion-01*' sys.list_modules
-  272  salt '*minion-01*' sys.list_functions
-  273  salt '*minion-01*' sys.list_functions test
-  274  salt '*minion-01*' sys.list_functions test.ping
-  275  salt '*minion-01*' sys.argspecs
-  276  salt '*minion-01*' sys.argspec
-  277  salt '*minion-01*' sys.list_modules | grep vmware
-  278  salt '*minion-01*' sys.list_modules | grep virtual
-  279  salt '*minion-01*' sys.doc virtualenv
-  280  salt '*minion-01*' sys.list_functions virtualenv
-  281  salt '*minion-01*' sys.doc virtualenv.create
-  282  salt '*minion-01*' sys.list_modules | grep esxi
-  283  salt '*minion-01*' sys.list_modules | grep cloud
-
-```
-
-
- 
