@@ -1107,6 +1107,8 @@ centos-srv-salt-minion-01.home.lab:
 [mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep remove
     - pkg.remove
 ```
+### pkg.available_version
+
 ```buildoutcfg
 [mc@salt-master ~]$ salt '*' pkg.available_version vim
 ubuntu-srv-salt-minion-02.home.lab:
@@ -1159,6 +1161,8 @@ centos-srv-salt-minion-01.home.lab:
     vim-enhanced:
         2:7.4.160-5.el7
 ```
+
+### pkg.install
 ```buildoutcfg
 [mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
 centos-srv-salt-minion-01.home.lab:
@@ -1175,7 +1179,9 @@ ubuntu-srv-salt-minion-02.home.lab:
         new:
             2:8.0.1453-1ubuntu1
         old:
+```
 
+### pkg.remove
 ```buildoutcfg
 [mc@salt-master ~]$ salt '*' pkg.remove vim vim-enhanced
 ubuntu-srv-salt-minion-02.home.lab:
@@ -1280,69 +1286,8 @@ ubuntu-srv-salt-minion-02.home.lab:
             2:8.0.1453-1ubuntu1
 ```
 
-
 ### pkg.list_pkgs
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
-ubuntu-srv-salt-minion-02.home.lab:
-    ----------
-    accountsservice:
-        0.6.45-1ubuntu1
-    acl:
-        2.2.52-3build1
-    acpid:
-        1:2.0.28-1ubuntu1
-    adduser:
 [mc@salt-master ~]$ salt '*' pkg.list_pkgs
 ubuntu-srv-salt-minion-02.home.lab:
     ----------
@@ -1374,9 +1319,9 @@ centos-srv-salt-minion-01.home.lab:
     gzip:
     bzip2-libs:
     gzip:
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep -E "zip|minion"
 ```
 ```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep -E "zip|minion"
 ubuntu-srv-salt-minion-02.home.lab:
     bzip2:
     gzip:
@@ -1386,14 +1331,7 @@ centos-srv-salt-minion-01.home.lab:
     gzip:
     salt-minion:
 ```
-### pkg.available_version
-```buildoutcfg
 
-```
-### pkg.install
-```buildoutcfg
-
-```
 ## user module
 ```buildoutcfg
 
