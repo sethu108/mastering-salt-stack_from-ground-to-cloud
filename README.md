@@ -1642,6 +1642,44 @@ centos-srv-salt-minion-01.home.lab:
 
 From other terminal
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'sleep 60'
+[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'sleep 600'
+```
+on master server 
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' saltutil.running
+centos-srv-salt-minion-01.home.lab:
+    |_
+      ----------
+      arg:
+          - sleep 600
+      fun:
+          cmd.run
+      jid:
+          20190315154355276910
+      pid:
+          11290
+      ret:
+      tgt:
+          *minion-01*
+      tgt_type:
+          glob
+      user:
+          mc
+ubuntu-srv-salt-minion-02.home.lab:
+[mc@salt-master ~]$ salt '*' saltutil.kill_job 20190315154355276910
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+    Signal 9 sent to job 20190315154355276910 at pid 11290
+[mc@salt-master ~]$ salt '*' saltutil.running
+ubuntu-srv-salt-minion-02.home.lab:
+centos-srv-salt-minion-01.home.lab:
+[mc@salt-master ~]$ 
+```
+
+after we kill jid
+```buildoutcfg
+centos-srv-salt-minion-01.home.lab:
+    Minion did not return. [No response]
+[mc@salt-master ~]$ 
 ```
 
