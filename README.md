@@ -1175,10 +1175,216 @@ ubuntu-srv-salt-minion-02.home.lab:
         new:
             2:8.0.1453-1ubuntu1
         old:
+
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.remove vim vim-enhanced
+ubuntu-srv-salt-minion-02.home.lab:
+    Passed invalid arguments to pkg.remove: 'NoneType' object is not iterable
+    
+        .. versionchanged:: 2015.8.12,2016.3.3,2016.11.0
+            On minions running systemd>=205, `systemd-run(1)`_ is now used to
+            isolate commands which modify installed packages from the
+            ``salt-minion`` daemon's control group. This is done to keep systemd
+            from killing any apt-get/dpkg commands spawned by Salt when the
+            ``salt-minion`` service is restarted. (see ``KillMode`` in the
+            `systemd.kill(5)`_ manpage for more information). If desired, usage of
+            `systemd-run(1)`_ can be suppressed by setting a :mod:`config option
+            <salt.modules.config.get>` called ``systemd.scope``, with a value of
+            ``False`` (no quotes).
+    
+        .. _`systemd-run(1)`: https://www.freedesktop.org/software/systemd/man/systemd-run.html
+        .. _`systemd.kill(5)`: https://www.freedesktop.org/software/systemd/man/systemd.kill.html
+    
+        Remove packages using ``apt-get remove``.
+    
+        name
+            The name of the package to be deleted.
+    
+    
+        Multiple Package Options:
+    
+        pkgs
+            A list of packages to delete. Must be passed as a python list. The
+            ``name`` parameter will be ignored if this option is passed.
+    
+        .. versionadded:: 0.16.0
+    
+    
+        Returns a dict containing the changes.
+    
+        CLI Example:
+    
+        .. code-block:: bash
+    
+            salt '*' pkg.remove <package name>
+            salt '*' pkg.remove <package1>,<package2>,<package3>
+            salt '*' pkg.remove pkgs='["foo", "bar"]'
+        
+centos-srv-salt-minion-01.home.lab:
+    Passed invalid arguments to pkg.remove: 'NoneType' object is not iterable
+    
+        .. versionchanged:: 2015.8.12,2016.3.3,2016.11.0
+            On minions running systemd>=205, `systemd-run(1)`_ is now used to
+            isolate commands which modify installed packages from the
+            ``salt-minion`` daemon's control group. This is done to keep systemd
+            from killing any yum/dnf commands spawned by Salt when the
+            ``salt-minion`` service is restarted. (see ``KillMode`` in the
+            `systemd.kill(5)`_ manpage for more information). If desired, usage of
+            `systemd-run(1)`_ can be suppressed by setting a :mod:`config option
+            <salt.modules.config.get>` called ``systemd.scope``, with a value of
+            ``False`` (no quotes).
+    
+        .. _`systemd-run(1)`: https://www.freedesktop.org/software/systemd/man/systemd-run.html
+        .. _`systemd.kill(5)`: https://www.freedesktop.org/software/systemd/man/systemd.kill.html
+    
+        Remove packages
+    
+        name
+            The name of the package to be removed
+    
+    
+        Multiple Package Options:
+    
+        pkgs
+            A list of packages to delete. Must be passed as a python list. The
+            ``name`` parameter will be ignored if this option is passed.
+    
+        .. versionadded:: 0.16.0
+    
+    
+        Returns a dict containing the changes.
+    
+        CLI Example:
+    
+        .. code-block:: bash
+    
+            salt '*' pkg.remove <package name>
+            salt '*' pkg.remove <package1>,<package2>,<package3>
+            salt '*' pkg.remove pkgs='["foo", "bar"]'
+        
+ERROR: Minions returned with non-zero exit code
+[mc@salt-master ~]$ salt '*' pkg.remove vim,vim-enhanced
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    vim-enhanced:
+        ----------
+        new:
+        old:
+            2:7.4.160-5.el7
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    vim:
+        ----------
+        new:
+        old:
+            2:8.0.1453-1ubuntu1
 ```
+
+
 ### pkg.list_pkgs
 ```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+ubuntu-srv-salt-minion-02.home.lab:
+    ----------
+    accountsservice:
+        0.6.45-1ubuntu1
+    acl:
+        2.2.52-3build1
+    acpid:
+        1:2.0.28-1ubuntu1
+    adduser:
+...
+centos-srv-salt-minion-01.home.lab:
+    ----------
+    GeoIP:
+        1.5.0-13.el7
+    NetworkManager:
+        1:1.12.0-6.el7
+    NetworkManager-libnm:
+        1:1.12.0-6.el7
+    NetworkManager-team:
+        1:1.12.0-6.el7
+    NetworkManager-tui:
+        1:1.12.0-6.el7
+```
 
+```buildoutcfg
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep zip
+    bzip2:
+    gzip:
+    bzip2-libs:
+    gzip:
+[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep -E "zip|minion"
+```
+```buildoutcfg
+ubuntu-srv-salt-minion-02.home.lab:
+    bzip2:
+    gzip:
+    salt-minion:
+centos-srv-salt-minion-01.home.lab:
+    bzip2-libs:
+    gzip:
+    salt-minion:
 ```
 ### pkg.available_version
 ```buildoutcfg
