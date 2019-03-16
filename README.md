@@ -1,16 +1,24 @@
-# Install and configure salt-master
-## ==============================================
-
-## Check first
-```
-https://repo.saltstack.com/#bootstrap
-```
+# Mastering Salt Stack from ground to Cloud
 
 # Installation
 
-## BOOTSTRAP - MULTI-PALTFORM
+## BOOTSTRAP - MULTI-PLATFORM
+https://repo.saltstack.com/#bootstrap
 
-### Install using wget
+### On the Salt Master
+```buildoutcfg
+curl -L https://bootstrap.saltstack.com -o install_salt.sh
+sudo sh install_salt.sh -P -M
+```
+Your Salt master can manage itself, so a Salt minion is installed along with the Salt master. If you do not want to install the minion, also pass the -N option.
+
+### On the Salt Minion
+```buildoutcfg
+curl -L https://bootstrap.saltstack.com -o install_salt.sh
+sudo sh install_salt.sh -P
+```
+
+## Install using wget
 
 #### Using wget to install your distribution's stable packages
 ```
@@ -18,35 +26,17 @@ wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
 sudo sh bootstrap-salt.sh
 ```
 
-#### Installing a specific version from git using wget
+### Installing a specific version from git using wget
 ```
 wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
 sudo sh bootstrap-salt.sh -P git v2016.11.5
 ```
 
-### Install using curl
-
-### On the Salt master
-
-#### Run these commands on the system that you want to use as the central management point
-```
-curl -L https://bootstrap.saltstack.com -o install_salt.sh
-sudo sh install_salt.sh -P -M
-```
-
-Your Salt master can manage itself, so a Salt minion is installed along with the Salt master. If you do not want to install the minion, also pass the -N option.
-
-### On each Salt minion
-
-#### Run these commands on each system that you want to manage using Salt.
-```
-curl -L https://bootstrap.saltstack.com -o install_salt.sh
-sudo sh install_salt.sh -P
-```
+## Based on specific platform
 
 ## Fedora
 #### Packages are available in the standard Fedora repositories. Install the salt-minion, salt-master, or other Salt components:
-```
+```buildoutcfg
 sudo dnf install -y salt-master \
 salt-minion \
 salt-ssh \
@@ -57,16 +47,16 @@ salt-api
 
 ## Redhat / CentOS 7 
 
-#### Installs the latest release. Updating installs the latest release even if it is a new major version.
+Installs the latest release. Updating installs the latest release even if it is a new major version.
 
-#### Run the following commands to install the SaltStack repository and key
-```
+Run the following commands to install the SaltStack repository and key
+```buildoutcfg
 sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest.el7.noarch.rpm 
 sudo yum clean expire-cache
 ```
 
 #### Install the salt-minion, salt-master, or other Salt components:
-```
+```buildoutcfg
 sudo yum install -y salt-master \
 salt-minion \
 salt-ssh \
@@ -76,7 +66,7 @@ salt-api
 ```
 
 #### (Upgrade only) Restart all upgraded services, for example
-```
+```buildoutcfg
 sudo systemctl restart salt-minion
 ```
 
@@ -86,19 +76,19 @@ sudo systemctl restart salt-minion
 #### Installs the latest release. Updating installs the latest release even if it is a new major version.
 
 #### Run the following command to import the SaltStack repository key:
-```
+```buildoutcfg
 wget -O - https://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest/SALTSTACK-GPG-KEY.pub | sudo apt-key add -
 ```
 #### Save the following line to /etc/apt/sources.list.d/saltstack.list:
-```
+```buildoutcfg
 sudo echo "deb http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic main" >> /etc/apt/sources.list.d/saltstack.list
 ```
 #### Run 
-```
+```buildoutcfg
 sudo apt-get update
 ```
 #### Install the salt-minion, salt-master, or other Salt components:
-```
+```buildoutcfg
 sudo apt-get install -y salt-master \
 salt-minion \
 salt-ssh \
@@ -108,23 +98,20 @@ salt-api
 ```
 
 #### (Upgrade only) Restart all upgraded services, for example:
-```
+```buildoutcfg
 sudo systemctl restart salt-minion
 ```
 
 ## Other distros
 https://docs.saltstack.com/en/latest/topics/installation/index.html#platform-specific-installation-instructions
 
-
-
 # Configuring Salt
-## ==============================================
 
 Salt configuration is very simple. The default configuration for the master will work for most installations and the only requirement for setting up a minion is to set the location of the master in the minion configuration file.
 
 The configuration files will be installed to /etc/salt and are named after the respective components, /etc/salt/master, and /etc/salt/minion.
 
-### Master Configuration
+## Master Configuration
 
 By default the Salt master listens on ports 4505 and 4506 on all interfaces (0.0.0.0). To bind Salt to a specific IP, redefine the "interface" directive in the master configuration file, typically /etc/salt/master, as follows:
 ```
@@ -135,7 +122,7 @@ After updating the configuration file, restart the Salt master. See the master c
 ```
 sudo systemctl restart salt-master
 ```
-### Minion Configuration
+## Minion Configuration
 
 Although there are many Salt Minion configuration options, configuring a Salt Minion is very simple. By default a Salt Minion will try to connect to the DNS name "salt"; if the Minion is able to resolve that name correctly, no configuration is needed.
 
@@ -149,7 +136,7 @@ or
 ```
 
 **NOTE:** Please check your **salt-master** ip address with some of tools that are available on your distribtution, probably it will be different than one I am using in this example. 
-I got question in some of previuus version of course, where students have issues during configuration/comunication between salt-master and salt-minion because they actualy used copy/paste of ip from
+I got question in some of previous version of course, where students have issues during configuration/comunication between salt-master and salt-minion because they actualy used copy/paste of ip from
 this tutorial. 
 
 After updating the configuration file, restart the Salt minion. See the minion configuration reference for more details about other configurable options.
@@ -160,7 +147,7 @@ sudo systemctl restart salt-minion
 ### Having trouble?
 
 The simplest way to troubleshoot Salt is to run the master and minion in the foreground with log level set to debug:
-```
+```buildoutcfg
 salt-master --log-level=debug
 ```
 For information on salt's logging system please see the logging document.
@@ -170,7 +157,7 @@ For information on salt's logging system please see the logging document.
 To run Salt as another user, set the user parameter in the master config file.
 
 Additionally, ownership, and permissions need to be set such that the desired user can read from and write to the following directories (and their subdirectories, where applicable):
-```
+```buildoutcfg
     /etc/salt
     /var/cache/salt
     /var/log/salt
@@ -188,14 +175,14 @@ Salt provides commands to validate the identity of your Salt master and Salt min
 Master Key Fingerprint
 
 Print the master key fingerprint by running the following command on the Salt master:
-```
+```buildoutcfg
 salt-key -F master
 ```
 Copy the master.pub fingerprint from the Local Keys section, and then set this value as the master_finger in the minion configuration file. Save the configuration file and then restart the Salt minion.
 Minion Key Fingerprint
 
 Run the following command on each Salt minion to view the minion key fingerprint:
-```
+```buildoutcfg
 salt-call --local key.finger
 ```
 Compare this value to the value that is displayed when you run the salt-key --finger <MINION_ID> command on the Salt master.
@@ -206,7 +193,7 @@ Salt uses AES encryption for all communication between the Master and the Minion
 
 Before commands can be sent to a Minion, its key must be accepted on the Master. Run the salt-key command to list the keys known to the Salt Master:
 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt-key -L
 Accepted Keys:
 Denied Keys:
@@ -217,7 +204,7 @@ Rejected Keys:
 ```
 This example shows that the Salt Master is aware of four Minions, but none of the keys has been accepted. To accept the keys and allow the Minions to be controlled by the Master, again use the salt-key command:
 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt-key -L
 Accepted Keys:
 centos-srv-salt-minion-01.home.lab
@@ -234,14 +221,13 @@ See also
 salt-key manpage
 https://docs.saltstack.com/en/latest/ref/cli/salt-key.html#salt-key
 
-
 # Basic commands concept
 
-### Sending Commands
+## Sending Commands
 
 Communication between the Master and a Minion may be verified by running the test.ping command:
 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
@@ -249,7 +235,7 @@ centos-srv-salt-minion-01.home.lab:
     True
 ```
 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*' cmd.run 'ls -la /home/mc'
 ubuntu-srv-salt-minion-02.home.lab:
     total 40
@@ -276,7 +262,7 @@ centos-srv-salt-minion-01.home.lab:
     -rw-------. 1 mc   mc   512 Feb 28 13:16 .viminfo
 ```
 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*' pkg.install vim
 centos-srv-salt-minion-01.home.lab:
     ----------
@@ -293,7 +279,7 @@ ubuntu-srv-salt-minion-02.home.lab:
             2:8.0.1453-1ubuntu1
         old:
 ```
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt '*' pkg.remove vim
 centos-srv-salt-minion-01.home.lab:
     ----------
@@ -315,7 +301,8 @@ centos-srv-salt-minion-01.home.lab:
         old:
             2:7.4.160-5.el7
 ```
-```
+### salt-call
+```buildoutcfg
 [mc@centos-srv-salt-minion-01 ~]$ sudo salt-call test.ping
 local:
     True
@@ -328,7 +315,7 @@ local:
             2:7.4.160-5.el7
         old:
 ```
-```
+```buildoutcfg
 mc@ubuntu-srv-salt-minion-02:~$ sudo salt-call test.ping
 local:
     True
@@ -342,10 +329,11 @@ local:
         old:
 
 ```
+
 # Targeting Minion
 
 ## Minion ID
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt 'ubuntu-srv-salt-minion-02.home.lab' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
@@ -376,7 +364,7 @@ ubuntu-srv-salt-minion-02.home.lab:
 ## List (-L)
 
 Comma-separated list of minion ID's:
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt -L centos-srv-salt-minion-01.home.lab,ubuntu-srv-salt-minion-02.home.lab test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
@@ -387,7 +375,7 @@ centos-srv-salt-minion-01.home.lab:
 ## Regular Expression (-E)
 
 Regular expressions for more complex targeting:
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt -E '(centos|ubuntu)-srv-salt-minion-0(1|2)\.home\.lab' test.ping
 centos-srv-salt-minion-01.home.lab:
     True
@@ -400,7 +388,7 @@ ubuntu-srv-salt-minion-02.home.lab:
 Minion gathered information about operating system and envirionment, presented to the user
 as grains. Grains are a simple data structure that allows to target based on some underlying aspcet of the system. 
 Will be disscused in detalis later. 
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt -G 'os:Centos' test.ping
 centos-srv-salt-minion-01.home.lab:
     True
@@ -415,7 +403,7 @@ ERROR: No return received
 ## Compound (-C)
 
 Combine several types in one command, no problem, use compound matcher.
-```
+```buildoutcfg
 [mc@salt-master ~]$ salt -C '*ubuntu* or G@os:Centos' test.ping
 centos-srv-salt-minion-01.home.lab:
     True
@@ -1683,8 +1671,8 @@ centos-srv-salt-minion-01.home.lab:
 [mc@salt-master ~]$ 
 ```
 
-## Salt states
-
+# Salt states
+https://docs.saltstack.com/en/latest/ref/states/all/
 ```buildoutcfg
 ...
 #
@@ -1695,7 +1683,7 @@ file_roots:
 ...
 ```
 
-### The Top file
+## The Top file
 
 ```buildoutcfg
 [mc@salt-master salt]$ tree /srv/salt/
