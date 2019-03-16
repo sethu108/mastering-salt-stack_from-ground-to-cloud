@@ -1786,21 +1786,27 @@ apache2:
       - apache2
 ```
 
-[mc@salt-master salt]$ cat dev/states/db.sls 
-mariadb-server:
-  pkg.installed:
-    - pkgs:
-      - mariadb-server
-[mc@salt-master salt]$ cat dev/states/web.sls 
-nginx:
-  pkg.installed:
-    - pkgs:
-      - nginx
+```buildoutcfg
 [mc@salt-master salt]$ cat dev/top.sls 
 dev:
   '*minion-01*': 
     - states.db
   '*minion-02*':
-    - states.web 
-[mc@salt-master salt]$ 
+    - states.web
+```
 
+```buildoutcfg
+[mc@salt-master salt]$ cat dev/states/db.sls 
+mariadb-server:
+  pkg.installed:
+    - pkgs:
+      - mariadb-server
+```
+
+```buildoutcfg
+[mc@salt-master salt]$ cat dev/states/web.sls 
+nginx:
+  pkg.installed:
+    - pkgs:
+      - nginx
+```
