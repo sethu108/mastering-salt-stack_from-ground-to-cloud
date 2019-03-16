@@ -1682,4 +1682,50 @@ centos-srv-salt-minion-01.home.lab:
     Minion did not return. [No response]
 [mc@salt-master ~]$ 
 ```
+# file_roots:
+#   base:
+#     - /srv/salt/
+#   dev:
+#     - /srv/salt/dev/services
+#     - /srv/salt/dev/states
+#   prod:
+#     - /srv/salt/prod/services
+#     - /srv/salt/prod/states
+#
+file_roots:
+  base:
+    - /srv/salt
+#
 
+[mc@salt-master ~]$ mkdir -p /srv/salt
+[mc@salt-master ~]$ chown mc -R /srv/salt
+[mc@salt-master ~]$ vim /srv/salt/top.sls 
+[mc@salt-master ~]$ vim /srv/salt/httpd.sls 
+[mc@salt-master ~]$ vim /srv/salt/apache2.sls 
+[mc@salt-master ~]$ vim
+
+
+apache2:
+  pkg:
+    - installed
+httpd:
+  pkg:
+    - installed
+
+httpd service:
+  service.running:
+    - name: httpd
+    - enable: True
+    - require:
+      - pkg: httpd
+
+firewalld config:
+  firewalld.present:
+    - name: public
+    - ports:
+      - 80/tcp 
+base:
+  'G@os:CentOS':
+    - httpd
+  'G@os:Ubuntu':
+    - apache2
