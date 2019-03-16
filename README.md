@@ -218,9 +218,8 @@ Rejected Keys:
 
 The salt-key command allows for signing keys individually or in bulk. The example above, using -A bulk-accepts all pending keys. To accept keys individually use the lowercase of the same option, -a keyname.
 
-See also
+See also salt-key manpage:
 
-salt-key manpage
 https://docs.saltstack.com/en/latest/ref/cli/salt-key.html#salt-key
 
 # Basic commands concept
