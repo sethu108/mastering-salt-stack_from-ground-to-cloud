@@ -1699,33 +1699,60 @@ file_roots:
 
 [mc@salt-master ~]$ mkdir -p /srv/salt
 [mc@salt-master ~]$ chown mc -R /srv/salt
-[mc@salt-master ~]$ vim /srv/salt/top.sls 
-[mc@salt-master ~]$ vim /srv/salt/httpd.sls 
-[mc@salt-master ~]$ vim /srv/salt/apache2.sls 
-[mc@salt-master ~]$ vim
+[mc@salt-master ~]$ vim /srv/salt/top.sls
 
-
-apache2:
-  pkg:
-    - installed
+[mc@salt-master salt]$ cat top.sls 
+base:
+  '*':
+    - common-tools
+  'G@os:Centos':
+    - vim-enhanced
+    - httpd
+  'G@os:Ubuntu':
+    - vim
+    - apache2
+[mc@salt-master salt]$ cat common-tools.sls 
+common-tools:
+  pkg.installed:
+    - pkgs:
+      - curl
+      - wget
+      - unzip
+      - git
+      - screen
+      - net-tools
+[mc@salt-master salt]$ cat vim-enhanced.sls 
+vim:
+  pkg.installed:
+    - pkgs:
+      - vim-enhanced
+[mc@salt-master salt]$ cat vim.sls 
+vim:
+  pkg.installed:
+    - pkgs:
+      - vim
+[mc@salt-master salt]$ cat httpd.sls 
 httpd:
-  pkg:
-    - installed
+  pkg.installed:
+    - pkgs:
+      - httpd
 
-httpd service:
+service httpd start:
   service.running:
     - name: httpd
     - enable: True
     - require:
       - pkg: httpd
 
-firewalld config:
+firewalld allow port 80:
   firewalld.present:
     - name: public
     - ports:
-      - 80/tcp 
-base:
-  'G@os:CentOS':
-    - httpd
-  'G@os:Ubuntu':
-    - apache2
+      - 80/tcp
+[mc@salt-master salt]$ cat apache2.sls 
+apache2:
+  pkg.installed:
+    - pkgs:
+      - apache2
+[mc@salt-master salt]$ 
+ 
