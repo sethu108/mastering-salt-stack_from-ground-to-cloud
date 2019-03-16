@@ -1698,6 +1698,18 @@ file_roots:
 ### The Top file
 
 ```buildoutcfg
+[mc@salt-master salt]$ tree /srv/salt/
+/srv/salt/
+├── apache2.sls
+├── common-tools.sls
+├── httpd.sls
+├── top.sls
+├── vim-enhanced.sls
+└── vim.sls
+
+```
+
+```buildoutcfg
 [mc@salt-master ~]$ sudo mkdir -p /srv/salt
 [mc@salt-master ~]$ sudo chown mc -R /srv/salt
 [mc@salt-master ~]$ touch /srv/salt/top.sls
