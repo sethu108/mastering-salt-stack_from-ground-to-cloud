@@ -1682,25 +1682,28 @@ centos-srv-salt-minion-01.home.lab:
     Minion did not return. [No response]
 [mc@salt-master ~]$ 
 ```
-# file_roots:
-#   base:
-#     - /srv/salt/
-#   dev:
-#     - /srv/salt/dev/services
-#     - /srv/salt/dev/states
-#   prod:
-#     - /srv/salt/prod/services
-#     - /srv/salt/prod/states
+
+## Salt states
+
+```buildoutcfg
+...
 #
 file_roots:
   base:
     - /srv/salt
 #
+...
+```
 
-[mc@salt-master ~]$ mkdir -p /srv/salt
-[mc@salt-master ~]$ chown mc -R /srv/salt
-[mc@salt-master ~]$ vim /srv/salt/top.sls
+### The Top file
 
+```buildoutcfg
+[mc@salt-master ~]$ sudo mkdir -p /srv/salt
+[mc@salt-master ~]$ sudo chown mc -R /srv/salt
+[mc@salt-master ~]$ touch /srv/salt/top.sls
+```
+
+```buildoutcfg
 [mc@salt-master salt]$ cat top.sls 
 base:
   '*':
@@ -1711,6 +1714,9 @@ base:
   'G@os:Ubuntu':
     - vim
     - apache2
+```
+
+```buildoutcfg
 [mc@salt-master salt]$ cat common-tools.sls 
 common-tools:
   pkg.installed:
@@ -1721,22 +1727,31 @@ common-tools:
       - git
       - screen
       - net-tools
+```
+```buildoutcfg
 [mc@salt-master salt]$ cat vim-enhanced.sls 
 vim:
   pkg.installed:
     - pkgs:
       - vim-enhanced
+``` 
+```buildoutcfg
 [mc@salt-master salt]$ cat vim.sls 
 vim:
   pkg.installed:
     - pkgs:
       - vim
+``` 
+
+```buildoutcfg
 [mc@salt-master salt]$ cat httpd.sls 
 httpd:
   pkg.installed:
     - pkgs:
       - httpd
+```
 
+```buildoutcfg
 service httpd start:
   service.running:
     - name: httpd
@@ -1749,10 +1764,12 @@ firewalld allow port 80:
     - name: public
     - ports:
       - 80/tcp
+```
+
+```buildoutcfg
 [mc@salt-master salt]$ cat apache2.sls 
 apache2:
   pkg.installed:
     - pkgs:
       - apache2
-[mc@salt-master salt]$ 
- 
+```
