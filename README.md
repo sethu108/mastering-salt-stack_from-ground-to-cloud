@@ -164,9 +164,11 @@ Additionally, ownership, and permissions need to be set such that the desired us
     /var/run/salt
 ```
 More information about running salt as a non-privileged user can be found here.
+
 https://docs.saltstack.com/en/latest/ref/configuration/nonroot.html#configuration-non-root-user
 
 There is also a full troubleshooting guide available.
+
 https://docs.saltstack.com/en/latest/topics/troubleshooting/index.html#troubleshooting
 
 ### Key Identity
