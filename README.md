@@ -1817,16 +1817,81 @@ Salt requires that the indentation for each level consists of exactly two spaces
 Python dictionaries are, of course, simply key-value pairs. Users from other languages may recognize this data type as hashes or associative arrays.
 
 Dictionary keys are represented in YAML as strings terminated by a trailing colon. Values are represented by either a string following the colon, separated by a space:
-|YAML|Python|
-|:-----|:-----|
-|
+
+YAML: 
 ```buildoutcfg
 my_key: my_value
 ```
-|asdf|
+
+Python: 
+```buildoutcfg
+{'my_key': 'my_value'}
+```
+
+json: 
+
+YAML: 
+```buildoutcfg
+my_key:
+  my_value
+```
+
+Python: 
+```buildoutcfg
+{'my_key': 'my_value'}
+```
+
+YAML: 
+```buildoutcfg
+first_level_dict_key:
+  second_level_dict_key: value_in_second_level_dict
+```
+
+Python: 
+```buildoutcfg
+{'first_level_dict_key': {'second_level_dict_key': 'value_in_second_level_dict'}}
+```
+
+json:
+```buildoutcfg
+{
+  "first_level_dict_key": {
+    "second_level_dict_key": "value_in_second_level_dict"
+  }
+}
+```
+
 ### Rule Three: Dashes
 
 To represent lists of items, a single dash followed by a space is used. Multiple items are a part of the same list as a function of their having the same level of indentation.
+
+YAML: 
+```buildoutcfg
+my_dictionary:
+  - list_value_one
+  - list_value_two
+  - list_value_three
+```
+
+Python: 
+```buildoutcfg
+{'my_dictionary': ['list_value_one', 'list_value_two', 'list_value_three']}
+```
+ 
+json: 
+```buildoutcfg
+{
+  "my_dictionary": [
+    "list_value_one", 
+    "list_value_two", 
+    "list_value_three"
+  ]
+}
+``` 
+ 
+ 
+ 
+
 
 
 ### Learning More
@@ -1841,5 +1906,98 @@ One excellent choice for experimenting with YAML parsing is: http://yaml-online-
 Jinja is the default templating language in SLS files.
 
 Jinja in States
+https://cryptic-cliffs-32040.herokuapp.com/
+http://jinja.quantprogramming.com/
+
 
 Jinja is evaluated before YAML, which means it is evaluated before the States are run.
+
+*Example 1.*
+
+YAML:
+```buildoutcfg
+student_name: Goku
+course_name: Salt Stack
+provided_by: https://monkeycourses.com
+```
+
+Jinja Template:
+```buildoutcfg
+Welcome {{ student_name }},
+
+Welcome to {{ course_name }} provided by {{ provided_by }}, let's learn!
+
+Thanks
+```
+
+*Example 2.*
+
+YAML:
+```buildoutcfg
+student_name: Goku
+student_active: true
+course_name: Salt Stack
+provided_by: https://monkeycourses.com
+support_email: info [at] monkeycourses.com
+```
+
+Jinja Template:
+```buildoutcfg
+Welcome {{ student_name }},
+
+{% if student_active %}
+    Welcome to {{ course_name }} provided by {{ provided_by }}, let's learn!
+{% elif not student_active %}
+    Oh, you account is locked! Please contact support at
+ {{ support_email }}! 
+{% endif %}
+
+Thanks
+```
+
+*Example 3.*
+
+YAML:
+```buildoutcfg
+grains:
+  { 'os': 'Debian' }
+```
+
+Jinja Template:
+```buildoutcfg
+{% if grains['os'] != 'FreeBSD' %}
+tcsh:
+    pkg:
+        - installed
+{% endif %}
+
+motd:
+  file.managed:
+    {% if grains['os'] == 'FreeBSD' %}
+    - name: /etc/motd
+    {% elif grains['os'] == 'Debian' %}
+    - name: /etc/motd.tail
+    {% endif %}
+    - source: salt://motd
+```
+
+*Example 6.*
+YAML:
+```buildoutcfg
+grains:
+  { 'os': 'Debian' }
+```
+
+```buildoutcfg
+{% set motd = ['/etc/motd'] %}
+{% if grains['os'] == 'Debian' %}
+  {% set motd = ['/etc/motd.tail', '/var/run/motd'] %}
+{% endif %}
+
+{% for motdfile in motd %}
+{{ motdfile }}:
+  file.managed:
+    - source: salt://motd
+{% endfor %}
+```
+
