@@ -1990,51 +1990,11 @@ Thanks
 YAML:
 ```buildoutcfg
 grains:
-  { 'os': 'Debian' }
-```
-
-Jinja Template:
-```buildoutcfg
-{% if grains['os'] != 'FreeBSD' %}
-tcsh:
-    pkg:
-        - installed
-{% endif %}
-
-motd:
-  file.managed:
-    {% if grains['os'] == 'FreeBSD' %}
-    - name: /etc/motd
-    {% elif grains['os'] == 'Debian' %}
-    - name: /etc/motd.tail
-    {% endif %}
-    - source: salt://motd
-```
-
-*Example 6.*
-YAML:
-```buildoutcfg
-grains:
-  { 'os': 'Debian' }
-```
-
-```buildoutcfg
-{% set motd = ['/etc/motd'] %}
-{% if grains['os'] == 'Debian' %}
-  {% set motd = ['/etc/motd.tail', '/var/run/motd'] %}
-{% endif %}
-
-{% for motdfile in motd %}
-{{ motdfile }}:
-  file.managed:
-    - source: salt://motd
-{% endfor %}
-```
-
-grains:
   - {'os': 'Debian', 'pkg': 'apache'}
   - {'os': 'RedHat', 'pkg': 'httpd'}
-
+```
+Jinja Template:
+```buildoutcfg
 {%for grain in grains %}
 {% if grain.os == 'Debian' %}
 {{ grain.pkg }}:
@@ -2046,3 +2006,4 @@ grains:
     - installed
 {% endif %}
 {% endfor %}
+```
