@@ -1925,7 +1925,7 @@ provided_by: https://monkeycourses.com
 
 Jinja Template:
 ```buildoutcfg
-Welcome {{ student_name }},
+Hi {{ student_name }},
 
 Welcome to {{ course_name }} provided by {{ provided_by }}, let's learn!
 
@@ -1945,7 +1945,7 @@ support_email: info [at] monkeycourses.com
 
 Jinja Template:
 ```buildoutcfg
-Welcome {{ student_name }},
+Hi {{ student_name }},
 
 {% if student_active %}
     Welcome to {{ course_name }} provided by {{ provided_by }}, let's learn!
@@ -1958,6 +1958,34 @@ Thanks
 ```
 
 *Example 3.*
+YAML:
+```buildoutcfg
+students:
+  - {'name': 'Goku', 'student_active': false}
+  - {'name': 'Krilin', 'student_active': true}
+  - {'name': 'Picolo', 'student_active': true}
+
+course_name: '"Salt Stack From Ground To Cloud"'
+provided_by: https://monkeycourses.com
+support_email: info [@] monkeycourses.com
+```
+
+Jinja Template:
+```buildoutcfg
+{% for student in students %}
+
+Hi {{ student.name }},
+
+{% if student.student_active %}
+Welcome to {{ course_name }} course provided by {{ provided_by }}, let's learn!
+{% elif not student.student_active %}
+Oh, your account is locked! Please contact support at {{ support_email }} !!!
+{% endif %}
+Thanks
+{% endfor %}
+```
+
+*Example 4.*
 
 YAML:
 ```buildoutcfg
@@ -2002,24 +2030,5 @@ grains:
     - source: salt://motd
 {% endfor %}
 ```
-students:
-  - {'name': 'Goku', 'student_active': false}
-  - {'name': 'Krilin', 'student_active': true}
-  - {'name': 'Picolo', 'student_active': true}
 
-course_name: '"Salt Stack From Ground To Cloud"'
-provided_by: https://monkeycourses.com
-support_email: info [@] monkeycourses.com
-
-{% for student in students %}
-
-Hi {{ student.name }},
-
-{% if student.student_active %}
-Welcome to {{ course_name }} course provided by {{ provided_by }}, let's learn!
-{% elif not student.student_active %}
-Oh, your account is locked! Please contact support at {{ support_email }} !!!
-{% endif %}
-Thanks
-{% endfor %}
 
