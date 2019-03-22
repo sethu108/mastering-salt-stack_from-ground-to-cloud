@@ -2031,4 +2031,18 @@ grains:
 {% endfor %}
 ```
 
+grains:
+  - {'os': 'Debian', 'pkg': 'apache'}
+  - {'os': 'RedHat', 'pkg': 'httpd'}
 
+{%for grain in grains %}
+{% if grain.os == 'Debian' %}
+{{ grain.pkg }}:
+  pkg:
+    - installed
+{% elif grain.os == 'RedHat' %}
+{{ grain.pkg }}:
+  pkg:
+    - installed
+{% endif %}
+{% endfor %}
