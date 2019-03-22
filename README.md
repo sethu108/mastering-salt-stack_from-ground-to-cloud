@@ -2000,4 +2000,24 @@ grains:
     - source: salt://motd
 {% endfor %}
 ```
+students:
+  - {'name': 'Goku', 'student_active': false}
+  - {'name': 'Krilin', 'student_active': true}
+  - {'name': 'Picolo', 'student_active': true}
+
+course_name: '"Salt Stack From Ground To Cloud"'
+provided_by: https://monkeycourses.com
+support_email: info [@] monkeycourses.com
+
+{% for student in students %}
+
+Hi {{ student.name }},
+
+{% if student.student_active %}
+Welcome to {{ course_name }} course provided by {{ provided_by }}, let's learn!
+{% elif not student.student_active %}
+Oh, your account is locked! Please contact support at {{ support_email }} !!!
+{% endif %}
+Thanks
+{% endfor %}
 
