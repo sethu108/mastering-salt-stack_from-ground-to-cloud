@@ -1799,3 +1799,47 @@ nginx:
     - pkgs:
       - nginx
 ```
+
+## Understanding YAML
+
+The default renderer for SLS files is the YAML renderer. YAML is a markup language with many powerful features. However, Salt uses a small subset of YAML that maps over very commonly used data structures, like lists and dictionaries. It is the job of the YAML renderer to take the YAML data structure and compile it into a Python data structure for use by Salt.
+
+Though YAML syntax may seem daunting and terse at first, there are only three very simple rules to remember when writing YAML for SLS files.
+
+### Rule One: Indentation
+
+YAML uses a fixed indentation scheme to represent relationships between data layers. 
+
+Salt requires that the indentation for each level consists of exactly two spaces. Do not use tabs.
+
+### Rule Two: Colons
+
+Python dictionaries are, of course, simply key-value pairs. Users from other languages may recognize this data type as hashes or associative arrays.
+
+Dictionary keys are represented in YAML as strings terminated by a trailing colon. Values are represented by either a string following the colon, separated by a space:
+|YAML|Python|
+|:-----|:-----|
+|
+```buildoutcfg
+my_key: my_value
+```
+|asdf|
+### Rule Three: Dashes
+
+To represent lists of items, a single dash followed by a space is used. Multiple items are a part of the same list as a function of their having the same level of indentation.
+
+
+### Learning More
+
+One easy way to learn more about how YAML gets rendered into Python data structures is to use an online YAML parser to see the Python output.
+
+One excellent choice for experimenting with YAML parsing is: http://yaml-online-parser.appspot.com/
+
+
+## Understanding Jinja
+
+Jinja is the default templating language in SLS files.
+
+Jinja in States
+
+Jinja is evaluated before YAML, which means it is evaluated before the States are run.
