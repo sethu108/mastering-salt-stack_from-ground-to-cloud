@@ -196,7 +196,7 @@ Salt uses AES encryption for all communication between the Master and the Minion
 Before commands can be sent to a Minion, its key must be accepted on the Master. Run the salt-key command to list the keys known to the Salt Master:
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt-key -L
+[mc@salt-master ~]$ sudo salt-key -L
 Accepted Keys:
 Denied Keys:
 Unaccepted Keys:
@@ -207,7 +207,7 @@ Rejected Keys:
 This example shows that the Salt Master is aware of four Minions, but none of the keys has been accepted. To accept the keys and allow the Minions to be controlled by the Master, again use the salt-key command:
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt-key -L
+[mc@salt-master ~]$ sudo salt-key -L
 Accepted Keys:
 centos-srv-salt-minion-01.home.lab
 ubuntu-srv-salt-minion-02.home.lab
@@ -215,6 +215,37 @@ Denied Keys:
 Unaccepted Keys:
 Rejected Keys:
 ```
+
+## Minion as minion on master
+```buildoutcfg
+[mc@salt-master ~]$ sudo systemctl restart salt-minion
+[mc@salt-master ~]$ sudo salt-key -L
+Accepted Keys:
+centos-srv-salt-minion-01.home.lab
+ubuntu-srv-salt-minion-02.home.lab
+Denied Keys:
+Unaccepted Keys:
+salt-master.home.lab
+Rejected Keys:
+[mc@salt-master ~]$ sudo salt-key -a salt-master.home.lab
+The following keys are going to be accepted:
+Unaccepted Keys:
+salt-master.home.lab
+Proceed? [n/Y] Y
+Key for minion salt-master.home.lab accepted.
+[mc@salt-master ~]$ sudo salt-key -L
+Accepted Keys:
+centos-srv-salt-minion-01.home.lab
+salt-master.home.lab
+ubuntu-srv-salt-minion-02.home.lab
+Denied Keys:
+Unaccepted Keys:
+Rejected Keys:
+[mc@salt-master ~]$ 
+
+
+```
+
 
 The salt-key command allows for signing keys individually or in bulk. The example above, using -A bulk-accepts all pending keys. To accept keys individually use the lowercase of the same option, -a keyname.
 
