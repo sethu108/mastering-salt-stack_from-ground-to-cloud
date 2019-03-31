@@ -523,8 +523,8 @@ centos-srv-salt-minion-01.home.lab:
 
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_modules
+[mc@salt-master ~]$ sudo salt-call sys.list_functions
+[mc@salt-master ~]$ sudo salt-call sys.list_modules
 centos-srv-salt-minion-01.home.lab:
     - acl
     - aliases
@@ -532,7 +532,7 @@ centos-srv-salt-minion-01.home.lab:
     - ansible
     - archive
     
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions
+[mc@salt-master ~]$ sudo salt-call sys.list_functions
 centos-srv-salt-minion-01.home.lab:
     - acl.delfacl
     - acl.getfacl
@@ -570,7 +570,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$  salt '*minion-01*' sys.list_functions pkg
+[mc@salt-master ~]$  sudo salt-call sys.list_functions pkg
 centos-srv-salt-minion-01.home.lab:
     - pkg.available_version
     - pkg.clean_metadata
@@ -613,11 +613,11 @@ centos-srv-salt-minion-01.home.lab:
     - pkg.verify
     - pkg.version
     - pkg.version_cmp
-[mc@salt-master ~]$  salt '*minion-01*' sys.list_functions pkg.install
+[mc@salt-master ~]$  sudo salt-call sys.list_functions pkg.install
 centos-srv-salt-minion-01.home.lab:
     - pkg.install
 
-[mc@salt-master ~]$  salt '*minion-01*' sys.doc pkg.install
+[mc@salt-master ~]$  sudo salt-call sys.doc pkg.install
 pkg.install:
 
     Changed in version 2015.8.12,2016.3.3,2016.11.0
@@ -802,7 +802,7 @@ pkg.install:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions sys
+[mc@salt-master ~]$ sudo salt-call sys.list_functions sys
 centos-srv-salt-minion-01.home.lab:
     - sys.argspec
     - sys.doc
@@ -828,7 +828,7 @@ centos-srv-salt-minion-01.home.lab:
 
 ## cmd module
 ```buildoutcfg
-[mc@salt-master ~]$  salt '*minion-01*' sys.doc cmd
+[mc@salt-master ~]$ sudo salt-call sys.doc cmd
 cmd.exec_code:
 
     Pass in two strings, the first naming the executable language, aka -
@@ -854,7 +854,7 @@ cmd.exec_code_all:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$  salt '*minion-01*' sys.doc cmd.run
+[mc@salt-master ~]$ sudo salt-call sys.doc cmd.run
 cmd.run:
 
     Execute the passed command and return the output as a string
@@ -1034,7 +1034,7 @@ cmd.run:
 ## pkg module
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' sys.list_functions pkg
+[mc@salt-master ~]$ sudo salt '*' sys.list_functions pkg
 ubuntu-srv-salt-minion-02.home.lab:
     - pkg.add_repo_key
     - pkg.autoremove
@@ -1111,12 +1111,12 @@ centos-srv-salt-minion-01.home.lab:
     - pkg.version_cmp
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep available
+[mc@salt-master ~]$ sudo salt '*minion-01*' sys.list_functions pkg | grep available
     - pkg.available_version
     - pkg.upgrade_available
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep install
+[mc@salt-master ~]$ sudo salt '*minion-01*' sys.list_functions pkg | grep install
     - pkg.group_install
     - pkg.groupinstall
     - pkg.info_installed
@@ -1124,25 +1124,25 @@ centos-srv-salt-minion-01.home.lab:
     - pkg.list_installed_patches
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_functions pkg | grep remove
+[mc@salt-master ~]$ sudo salt '*minion-01*' sys.list_functions pkg | grep remove
     - pkg.remove
 ```
 ### pkg.available_version
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.available_version vim
+[mc@salt-master ~]$ sudo salt '*' pkg.available_version vim
 ubuntu-srv-salt-minion-02.home.lab:
     2:8.0.1453-1ubuntu1
 centos-srv-salt-minion-01.home.lab:
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.available_version vim-enhanced
+[mc@salt-master ~]$ sudo salt '*' pkg.available_version vim-enhanced
 ubuntu-srv-salt-minion-02.home.lab:
 centos-srv-salt-minion-01.home.lab:
     2:7.4.160-5.el7
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' sys.doc pkg.available_version 
+[mc@salt-master ~]$ sudo salt '*' sys.doc pkg.available_version 
 pkg.available_version:
 
 This function is an alias of ``latest_version``.
@@ -1169,7 +1169,7 @@ This function is an alias of ``latest_version``.
     
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.available_version vim vim-enhanced
+[mc@salt-master ~]$ sudo salt '*' pkg.available_version vim vim-enhanced
 ubuntu-srv-salt-minion-02.home.lab:
     ----------
     vim:
@@ -1184,7 +1184,7 @@ centos-srv-salt-minion-01.home.lab:
 
 ### pkg.install
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.install vim vim-enhanced
+[mc@salt-master ~]$ sudo salt '*' pkg.install vim vim-enhanced
 centos-srv-salt-minion-01.home.lab:
     ----------
     vim-enhanced:
@@ -1203,7 +1203,7 @@ ubuntu-srv-salt-minion-02.home.lab:
 
 ### pkg.remove
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.remove vim vim-enhanced
+[mc@salt-master ~]$ sudo salt '*' pkg.remove vim vim-enhanced
 ubuntu-srv-salt-minion-02.home.lab:
     Passed invalid arguments to pkg.remove: 'NoneType' object is not iterable
     
@@ -1308,7 +1308,7 @@ ubuntu-srv-salt-minion-02.home.lab:
 
 ### pkg.list_pkgs
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs
+[mc@salt-master ~]$ sudo salt '*' pkg.list_pkgs
 ubuntu-srv-salt-minion-02.home.lab:
     ----------
     accountsservice:
@@ -1334,14 +1334,14 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep zip
+[mc@salt-master ~]$ sudo salt '*' pkg.list_pkgs | grep zip
     bzip2:
     gzip:
     bzip2-libs:
     gzip:
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.list_pkgs | grep -E "zip|minion"
+[mc@salt-master ~]$ sudo salt '*' pkg.list_pkgs | grep -E "zip|minion"
 ubuntu-srv-salt-minion-02.home.lab:
     bzip2:
     gzip:
@@ -1354,7 +1354,7 @@ centos-srv-salt-minion-01.home.lab:
 
 ## user module
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.doc user.add
+[mc@salt-master ~]$ sudo salt-call sys.doc user.add
 user.add:
 
     Add a user to the minion
@@ -1364,11 +1364,11 @@ user.add:
         salt '*' user.add name <uid> <gid> <groups> <home> <shell>
     
 
-[mc@salt-master ~]$ salt '*minion-01*' cmd.run 'ls -lah' runas=tom
+[mc@salt-master ~]$ sudo salt '*minion-01*' cmd.run 'ls -lah' runas=tom
 centos-srv-salt-minion-01.home.lab:
     ERROR: User 'tom' is not available
 ERROR: Minions returned with non-zero exit code
-[mc@salt-master ~]$ salt '*minion-01*' user.add tom 10000 10000  tom /home/tom /bin/bash
+[mc@salt-master ~]$ sudo salt '*minion-01*' user.add tom 10000 10000  tom /home/tom /bin/bash
 centos-srv-salt-minion-01.home.lab:
     False
 ERROR: Minions returned with non-zero exit code
