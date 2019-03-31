@@ -1182,6 +1182,8 @@ centos-srv-salt-minion-01.home.lab:
         2:7.4.160-5.el7
 ```
 
+# Modules - Practice
+
 ### pkg.install
 ```buildoutcfg
 [mc@salt-master ~]$ sudo salt '*' pkg.install vim vim-enhanced
