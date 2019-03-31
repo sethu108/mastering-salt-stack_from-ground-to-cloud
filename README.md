@@ -260,7 +260,7 @@ https://docs.saltstack.com/en/latest/ref/cli/salt-key.html#salt-key
 Communication between the Master and a Minion may be verified by running the test.ping command:
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' test.ping
+[mc@salt-master ~]$ sudo salt '*' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
 centos-srv-salt-minion-01.home.lab:
@@ -268,7 +268,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' cmd.run 'ls -la /home/mc'
+[mc@salt-master ~]$ sudo salt '*' cmd.run 'ls -la /home/mc'
 ubuntu-srv-salt-minion-02.home.lab:
     total 40
     drwxr-xr-x 5 mc   mc   4096 Feb 28 18:07 .
@@ -295,7 +295,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.install vim
+[mc@salt-master ~]$ sudo salt '*' pkg.install vim
 centos-srv-salt-minion-01.home.lab:
     ----------
     vim-enhanced:
@@ -312,7 +312,7 @@ ubuntu-srv-salt-minion-02.home.lab:
         old:
 ```
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*' pkg.remove vim
+[mc@salt-master ~]$ sudo salt '*' pkg.remove vim
 centos-srv-salt-minion-01.home.lab:
     ----------
 ubuntu-srv-salt-minion-02.home.lab:
@@ -322,7 +322,7 @@ ubuntu-srv-salt-minion-02.home.lab:
         new:
         old:
             2:8.0.1453-1ubuntu1
-[mc@salt-master ~]$ salt '*' pkg.remove vim-enhanced
+[mc@salt-master ~]$ sudo salt '*' pkg.remove vim-enhanced
 ubuntu-srv-salt-minion-02.home.lab:
     ----------
 centos-srv-salt-minion-01.home.lab:
@@ -335,7 +335,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 ### salt-call
 ```buildoutcfg
-[mc@centos-srv-salt-minion-01 ~]$ sudo salt-call test.ping
+[mc@centos-srv-salt-minion-01 ~]$ sudo sudo salt-call test.ping
 local:
     True
 [mc@centos-srv-salt-minion-01 ~]$ sudo salt-call pkg.install vim
