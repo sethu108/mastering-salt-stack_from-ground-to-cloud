@@ -1127,6 +1127,7 @@ centos-srv-salt-minion-01.home.lab:
 [mc@salt-master ~]$ sudo salt '*minion-01*' sys.list_functions pkg | grep remove
     - pkg.remove
 ```
+# Modules - Practice
 ### pkg.available_version
 
 ```buildoutcfg
@@ -1181,8 +1182,6 @@ centos-srv-salt-minion-01.home.lab:
     vim-enhanced:
         2:7.4.160-5.el7
 ```
-
-# Modules - Practice
 
 ### pkg.install
 ```buildoutcfg
