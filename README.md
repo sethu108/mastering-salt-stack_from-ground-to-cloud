@@ -421,13 +421,13 @@ Minion gathered information about operating system and envirionment, presented t
 as grains. Grains are a simple data structure that allows to target based on some underlying aspcet of the system. 
 Will be disscused in detalis later. 
 ```buildoutcfg
-[mc@salt-master ~]$ salt -G 'os:Centos' test.ping
+[mc@salt-master ~]$ sudo salt -G 'os:Centos' test.ping
 centos-srv-salt-minion-01.home.lab:
     True
-[mc@salt-master ~]$ salt -G 'os:Ubuntu' test.ping
+[mc@salt-master ~]$ sudo salt -G 'os:Ubuntu' test.ping
 ubuntu-srv-salt-minion-02.home.lab:
     True
-[mc@salt-master ~]$ salt -G 'os:Debian' test.ping
+[mc@salt-master ~]$ sudo salt -G 'os:Debian' test.ping
 No minions matched the target. No command was sent, no jid was assigned.
 ERROR: No return received
 ```
@@ -436,7 +436,7 @@ ERROR: No return received
 
 Combine several types in one command, no problem, use compound matcher.
 ```buildoutcfg
-[mc@salt-master ~]$ salt -C '*ubuntu* or G@os:Centos' test.ping
+[mc@salt-master ~]$ sudo salt -C '*ubuntu* or G@os:Centos' test.ping
 centos-srv-salt-minion-01.home.lab:
     True
 ubuntu-srv-salt-minion-02.home.lab:
@@ -453,7 +453,7 @@ Saltstack contains extensive docstrings for its codebase. To access these docstr
 use the sys execution module.
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.doc test.ping
+[mc@salt-master ~]$ sudo salt-call sys.doc test.ping
 test.ping:
 
     Used to make sure the minion is up and responding. Not an ICMP ping.
@@ -466,7 +466,7 @@ test.ping:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.doc test
+[mc@salt-master ~]$ sudo salt-call sys.doc test
 test.arg:
 
     Print out the data passed into the function ``*args`` and ```kwargs``, this
@@ -488,13 +488,13 @@ test.arg_clean:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.doc
-[mc@salt-master ~]$ salt '*minion-01*' sys.doc test
+[mc@salt-master ~]$ sudo salt-call sys.doc
+[mc@salt-master ~]$ sudo salt-call sys.doc test
 ```
 
 ### sys.list_modules and sys.list_functions
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_modules
+[mc@salt-master ~]$ sudo salt-call sys.list_modules
 centos-srv-salt-minion-01.home.lab:
     - acl
     - aliases
@@ -513,7 +513,7 @@ centos-srv-salt-minion-01.home.lab:
 ```
 
 ```buildoutcfg
-[mc@salt-master ~]$ salt '*minion-01*' sys.list_modules | grep -E "test|pkg"
+[mc@salt-master ~]$ sudo salt-call sys.list_modules | grep -E "test|pkg"
     - kernelpkg
     - lowpkg
     - pkg
