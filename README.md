@@ -1735,6 +1735,7 @@ base:
     - common-tools
 ```
 
+## Create an *sls* file
 ```buildoutcfg
 [mc@salt-master salt]$ sudo vim common-tools.sls 
 common-tools:
