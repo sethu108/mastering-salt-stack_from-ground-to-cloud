@@ -1754,17 +1754,92 @@ common-tools:
 sudo salt '*' state.apply
 ```
 
+## Update top.sls with webserver
 ```buildoutcfg
-[mc@salt-master salt]$ tree /srv/salt/
-/srv/salt/
-├── apache2.sls
-├── common-tools.sls
-├── httpd.sls
-├── top.sls
-├── vim-enhanced.sls
-└── vim.sls
-
+[mc@salt-master ~]$ sudo vim /srv/salt/top.sls
+base:
+  '*':
+    - common-tools
+    - webserver
 ```
+
+### Install Apache webserver
+[mc@salt-master salt]$ sudo vim webserver.sls
+```buildoutcfg
+webserver:
+  pkg.installed:
+    - name: apache2
+```
+
+### Apply state only on minions, exclude master server
+```buildoutcfg
+[mc@salt-master salt]$  salt '*minion*' state.apply
+```
+
+### Install Apache webserver based on grains['os']
+[mc@salt-master salt]$ sudo vim webserver.sls
+```buildoutcfg
+webserver:
+  pkg.installed:
+    {% if grains['os'] == 'Ubuntu' %}
+    - name: apache2 
+    {% elif grains['os'] == 'CentOS' %}
+    - name: httpd
+    {% endif %}
+```
+
+### Apply state only on minions, exclude master server
+```buildoutcfg
+[mc@salt-master salt]$  salt '*minion*' state.apply
+```
+
+### Install Apache webserver based on grains['os'], with predefined variables
+```buildoutcfg
+{% if grains['os'] == 'Ubuntu' %}
+  {% set service_name =  'apache2' %}
+{% elif grains['os'] == 'CentOS' %}
+  {% set service_name = 'httpd' %}
+{% endif %}
+
+webserver:
+  pkg.installed:
+    - name: {{ service_name }}
+
+service apache start:
+  service.running:
+    - name: {{ service_name }}
+    - enable: {{ service_name }}
+    - require:
+      - pkg: {{ service_name }}
+
+firewalld allow port 80:
+  firewalld.present:
+    - name: public
+    - ports:
+      - 80/tcp
+```
+
+### Apply state only on minions, exclude master server
+```buildoutcfg
+[mc@salt-master salt]$  salt '*minion*' state.apply
+```
+
+### Install vim based on grains['os'], with predefined variables
+```buildoutcfg
+[mc@salt-master salt]$ sudo vim vim.sls 
+{% if grains['os'] == 'Ubuntu' %}
+  {% set vim_pkg_name =  'vim' %}
+{% elif grains['os'] == 'CentOS' %}
+  {% set vim_pkg_name = 'vim-enhanced' %}
+{% endif %}
+
+vim:
+  pkg.installed:
+    - pkg:
+      - name: {{ vim_pkg_name }}
+``` 
+
+
 
 ```buildoutcfg
 [mc@salt-master salt]$ cat top.sls 
@@ -1780,13 +1855,6 @@ base:
 ```
 
 
-```buildoutcfg
-[mc@salt-master salt]$ cat vim-enhanced.sls 
-vim:
-  pkg.installed:
-    - pkgs:
-      - vim-enhanced
-``` 
 ```buildoutcfg
 [mc@salt-master salt]$ cat vim.sls 
 vim:
@@ -1818,13 +1886,6 @@ firewalld allow port 80:
       - 80/tcp
 ```
 
-```buildoutcfg
-[mc@salt-master salt]$ cat apache2.sls 
-apache2:
-  pkg.installed:
-    - pkgs:
-      - apache2
-```
 
 ```buildoutcfg
 [mc@salt-master salt]$ cat dev/top.sls 
@@ -2058,39 +2119,3 @@ Jinja Template:
 {% endif %}
 {% endfor %}
 ```
-{% if grains['os'] == 'Ubuntu' %}
-  {% set service_name =  'apache2' %}
-{% elif grains['os'] == 'CentOS' %}
-  {% set service_name = 'httpd' %}
-{% endif %}
-
-webserver:
-  pkg.installed:
-    - name: {{ service_name }}
-
-service apache start:
-  service.running:
-    - name: {{ service_name }}
-    - enable: {{ service_name }}
-    - require:
-      - pkg: {{ service_name }}
-
-firewalld allow port 80:
-  firewalld.present:
-    - name: public
-    - ports:
-      - 80/tcp
-base:
-  '*':
-    - common-tools
-    - webserver
-common-tools:
-  pkg.installed:
-    - pkgs:
-      - curl
-      - wget
-      - unzip
-      - git
-      - screen
-      - net-tools
-
