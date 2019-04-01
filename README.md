@@ -1777,8 +1777,8 @@ webserver:
 ```
 
 ### Install Apache webserver based on grains['os']
-[mc@salt-master salt]$ sudo vim webserver.sls
 ```buildoutcfg
+[mc@salt-master salt]$ sudo vim webserver.sls
 webserver:
   pkg.installed:
     {% if grains['os'] == 'Ubuntu' %}
