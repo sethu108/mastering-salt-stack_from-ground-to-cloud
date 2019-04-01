@@ -1706,6 +1706,9 @@ centos-srv-salt-minion-01.home.lab:
 
 # Salt states
 https://docs.saltstack.com/en/latest/ref/states/all/
+
+## Setting up the Salt State Tree
+Edit your salt master config file (/etc/salt/master)
 ```buildoutcfg
 ...
 #
@@ -1715,8 +1718,40 @@ file_roots:
 #
 ...
 ```
+```buildoutcfg
+[mc@salt-master ~]$ sudo systemctl restart salt-master
+```
 
-## The Top file
+```buildoutcfg
+[mc@salt-master ~]$ sudo mkdir -p /srv/salt
+```
+
+## Preparing The Top File
+
+```buildoutcfg
+[mc@salt-master ~]$ sudo vim /srv/salt/top.sls
+base:
+  '*':
+    - common-tools
+```
+
+```buildoutcfg
+[mc@salt-master salt]$ sudo vim common-tools.sls 
+common-tools:
+  pkg.installed:
+    - pkgs:
+      - curl
+      - wget
+      - unzip
+      - git
+      - screen
+      - net-tools
+```
+
+## Install the package
+```buildoutcfg
+sudo salt '*' state.apply
+```
 
 ```buildoutcfg
 [mc@salt-master salt]$ tree /srv/salt/
@@ -1728,12 +1763,6 @@ file_roots:
 ├── vim-enhanced.sls
 └── vim.sls
 
-```
-
-```buildoutcfg
-[mc@salt-master ~]$ sudo mkdir -p /srv/salt
-[mc@salt-master ~]$ sudo chown mc -R /srv/salt
-[mc@salt-master ~]$ touch /srv/salt/top.sls
 ```
 
 ```buildoutcfg
@@ -1749,18 +1778,7 @@ base:
     - apache2
 ```
 
-```buildoutcfg
-[mc@salt-master salt]$ cat common-tools.sls 
-common-tools:
-  pkg.installed:
-    - pkgs:
-      - curl
-      - wget
-      - unzip
-      - git
-      - screen
-      - net-tools
-```
+
 ```buildoutcfg
 [mc@salt-master salt]$ cat vim-enhanced.sls 
 vim:
