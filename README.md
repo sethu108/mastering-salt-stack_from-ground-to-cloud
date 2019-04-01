@@ -1776,7 +1776,7 @@ webserver:
 [mc@salt-master salt]$  salt '*minion*' state.apply
 ```
 
-### Install Apache webserver based on grains['os']
+### Install Apache webserver based on grains['os'] - Using Grains in SLS modules
 ```buildoutcfg
 [mc@salt-master salt]$ sudo vim webserver.sls
 webserver:
@@ -1839,7 +1839,17 @@ vim:
       - name: {{ vim_pkg_name }}
 ``` 
 
+### States tutorial, part 3 - Templating, Includes, Extends
 
+```buildoutcfg
+[mc@salt-master salt]$ sudo vim users.sls
+{% for usr in ['goku','krilin','picolo'] %}
+{{ usr }}:
+  user.present
+{% endfor %}
+```
+
+### Using Environment Variables in SLS modules
 
 ```buildoutcfg
 [mc@salt-master salt]$ cat top.sls 
