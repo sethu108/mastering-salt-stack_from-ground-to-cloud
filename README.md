@@ -2058,3 +2058,39 @@ Jinja Template:
 {% endif %}
 {% endfor %}
 ```
+{% if grains['os'] == 'Ubuntu' %}
+  {% set service_name =  'apache2' %}
+{% elif grains['os'] == 'CentOS' %}
+  {% set service_name = 'httpd' %}
+{% endif %}
+
+webserver:
+  pkg.installed:
+    - name: {{ service_name }}
+
+service apache start:
+  service.running:
+    - name: {{ service_name }}
+    - enable: {{ service_name }}
+    - require:
+      - pkg: {{ service_name }}
+
+firewalld allow port 80:
+  firewalld.present:
+    - name: public
+    - ports:
+      - 80/tcp
+base:
+  '*':
+    - common-tools
+    - webserver
+common-tools:
+  pkg.installed:
+    - pkgs:
+      - curl
+      - wget
+      - unzip
+      - git
+      - screen
+      - net-tools
+
